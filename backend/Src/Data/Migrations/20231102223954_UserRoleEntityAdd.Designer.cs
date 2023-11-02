@@ -10,7 +10,7 @@ using backend.Src.Data;
 namespace backend.Src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231102215213_UserRoleEntityAdd")]
+    [Migration("20231102223954_UserRoleEntityAdd")]
     partial class UserRoleEntityAdd
     {
         /// <inheritdoc />
@@ -53,10 +53,6 @@ namespace backend.Src.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

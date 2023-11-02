@@ -53,10 +53,6 @@ namespace backend.Src.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PasswordSalt")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Points")
                         .HasColumnType("INTEGER");
 

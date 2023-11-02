@@ -1,3 +1,6 @@
+using backend.Src.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlite("Data Source=Dumbo.db")); ;
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

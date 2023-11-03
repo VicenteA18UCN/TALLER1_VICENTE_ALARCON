@@ -8,29 +8,19 @@ namespace backend.Src.Services
     {
 
         private readonly IUsersRepository _usersRepository;
+        private readonly IMapperService _mapperService;
 
-        public UsersService(IUsersRepository usersRepository)
+        public UsersService(IUsersRepository usersRepository, IMapperService mapperService)
         {
             _usersRepository = usersRepository;
+            _mapperService = mapperService;
         }
 
         public async Task<List<UserDto>> GetAll()
         {
             var users = await _usersRepository.GetAll();
 
-            var mappedUsers = users.Select(u => new UserDto()
-            {
-                Id = u.Id,
-                Name = u.Name,
-                Lastname = u.Lastname,
-                Email = u.Email,
-                Password = u.Password,
-                Role = new RoleDto()
-                {
-                    Id = u.Role.Id,
-                    Name = u.Role.Name
-                }
-            }).ToList();
+            var mappedUsers = _mapperService.MapUsers(users);
 
             return mappedUsers;
         }

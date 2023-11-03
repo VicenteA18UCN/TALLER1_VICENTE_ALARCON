@@ -12,19 +12,29 @@ namespace backend.Src.Extensions
         public static void AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             AddSwaggerGen(services);
+            AddRepositories(services);
             AddServices(services);
             AddDbContext(services);
+            AddAutoMapper(services);
         }
 
+        private static void AddAutoMapper(IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(Program).Assembly);
+        }
+
+        private static void AddRepositories(IServiceCollection services)
+        {
+            services.AddScoped<IUsersRepository, UsersRepository>();
+        }
         private static void AddSwaggerGen(IServiceCollection services)
         {
             services.AddSwaggerGen();
         }
-
         private static void AddServices(IServiceCollection services)
         {
-            services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IMapperService, MapperService>();
         }
 
         private static void AddDbContext(IServiceCollection services)

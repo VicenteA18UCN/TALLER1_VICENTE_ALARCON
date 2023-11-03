@@ -35,7 +35,8 @@ namespace backend.Src.Data
                 new(){
                     Name= "Admin",
                     Lastname = "Admin",
-                    Email = "Ochietto",
+                    Username = "Ochietto",
+                    Email = "Admin",
                     Password =  BCrypt.Net.BCrypt.HashPassword("Jaqamain3pals", BCrypt.Net.BCrypt.GenerateSalt(12)),
                     RoleId = 1,
                     Points = 0

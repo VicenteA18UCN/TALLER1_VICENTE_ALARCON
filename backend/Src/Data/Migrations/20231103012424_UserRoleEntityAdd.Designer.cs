@@ -10,7 +10,7 @@ using backend.Src.Data;
 namespace backend.Src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231103003656_UserRoleEntityAdd")]
+    [Migration("20231103012424_UserRoleEntityAdd")]
     partial class UserRoleEntityAdd
     {
         /// <inheritdoc />
@@ -61,6 +61,10 @@ namespace backend.Src.Data.Migrations
 
                     b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

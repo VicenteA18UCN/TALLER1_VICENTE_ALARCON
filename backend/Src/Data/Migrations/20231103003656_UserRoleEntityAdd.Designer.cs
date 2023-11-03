@@ -10,7 +10,7 @@ using backend.Src.Data;
 namespace backend.Src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231102223954_UserRoleEntityAdd")]
+    [Migration("20231103003656_UserRoleEntityAdd")]
     partial class UserRoleEntityAdd
     {
         /// <inheritdoc />

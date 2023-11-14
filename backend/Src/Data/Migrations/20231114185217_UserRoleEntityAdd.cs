@@ -34,6 +34,7 @@ namespace backend.Src.Data.Migrations
                     Lastname = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Password = table.Column<string>(type: "TEXT", nullable: false),
+                    Rut = table.Column<string>(type: "TEXT", nullable: false),
                     Points = table.Column<int>(type: "INTEGER", nullable: false),
                     RoleId = table.Column<int>(type: "INTEGER", nullable: false)
                 },

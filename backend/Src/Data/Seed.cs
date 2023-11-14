@@ -38,6 +38,7 @@ namespace backend.Src.Data
                     Username = "Ochietto",
                     Email = "Admin",
                     Password =  BCrypt.Net.BCrypt.HashPassword("Jaqamain3pals", BCrypt.Net.BCrypt.GenerateSalt(12)),
+                    Rut = "20.416.699-4",
                     RoleId = 1,
                     Points = 0
                 },

@@ -11,10 +11,10 @@ const requests = {
     delete: (url:string ) => axios.delete(url).then(responseBody),
   };
   
-const Login = {
-    login: (email: string, password: string) => requests.post('Auth/login', {email, password}),
+const Auth = {
+    login: (username: string, password: string) => requests.post('Auth/login', {username, password}),
 }
 
-const agent = {Login}
+const agent = {Auth}
 
 export default agent;

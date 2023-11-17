@@ -1,4 +1,5 @@
 using AutoMapper;
+using backend.Src.DTO;
 using backend.Src.DTO.Users;
 using backend.Src.Models;
 using backend.Src.Services.Interfaces;
@@ -18,6 +19,12 @@ namespace backend.Src.Services
         {
             var mappedUsers = users.Select(u => _mapper.Map<UserDto>(u)).ToList();
             return mappedUsers;
+        }
+
+        public User CreateClientDtoToUser(CreateUserDto clientUserDto)
+        {
+            var user = _mapper.Map<User>(clientUserDto);
+            return user;
         }
     }
 }

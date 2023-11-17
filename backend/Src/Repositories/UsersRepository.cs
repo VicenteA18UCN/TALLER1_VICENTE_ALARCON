@@ -14,6 +14,13 @@ namespace backend.Src.Repositories
             _context = context;
         }
 
+        public async Task<User> Add(User user)
+        {
+            var createdUser = (await _context.Users.AddAsync(user)).Entity;
+            await _context.SaveChangesAsync();
+            return createdUser;
+        }
+
         public async Task<List<User>> GetAll()
         {
             var users = await _context.Users
@@ -22,22 +29,22 @@ namespace backend.Src.Repositories
             return users;
         }
 
-        public Task<User> GetByEmail()
+        public async Task<User?> GetByEmail(string email)
         {
-            //TODO: Implementar
-            throw new NotImplementedException();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return user;
         }
 
-        public Task<User> GetById()
+        public async Task<User?> GetById(int id)
         {
-            //TODO: Implementar
-            throw new NotImplementedException();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return user;
         }
 
-        public Task<User> GetByUsername()
+        public async Task<User?> GetByUsername(string username)
         {
-            //TODO: Implementar
-            throw new NotImplementedException();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            return user;
         }
     }
 }

@@ -1,4 +1,5 @@
 using backend.Src.DTO.Users;
+using backend.Src.DTO;
 using backend.Src.Repositories.Interfaces;
 using backend.Src.Services.Interfaces;
 
@@ -24,5 +25,15 @@ namespace backend.Src.Services
 
             return mappedUsers;
         }
+
+        public async Task<string> Create(CreateUserDto createUserDto)
+        {
+            var user = _mapperService.CreateClientDtoToUser(createUserDto);
+
+            var createdUser = await _usersRepository.Add(user);
+
+            return createdUser.Username;
+        }
+
     }
 }

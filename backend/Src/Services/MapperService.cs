@@ -26,5 +26,28 @@ namespace backend.Src.Services
             var user = _mapper.Map<User>(clientUserDto);
             return user;
         }
+
+        public User UpdateUserDtoToUser(UpdateUserDto updateUserDto, User user)
+        {
+            try
+            {
+                user.Name = updateUserDto.Name;
+                user.Lastname = updateUserDto.Lastname;
+                user.Email = updateUserDto.Email;
+                user.Points = updateUserDto.Points;
+                return user;
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                var errorMessage = $"Error mapping UpdateUserDto to User. Mapping details: {ex.Message}";
+                throw new AutoMapperMappingException(errorMessage, ex);
+            }
+        }
+
+        public UpdateUserDto MapToUpdateUserDto(User user)
+        {
+            var updateUserDto = _mapper.Map<UpdateUserDto>(user);
+            return updateUserDto;
+        }
     }
 }

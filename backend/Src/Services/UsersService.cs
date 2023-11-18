@@ -2,6 +2,7 @@ using backend.Src.DTO.Users;
 using backend.Src.DTO;
 using backend.Src.Repositories.Interfaces;
 using backend.Src.Services.Interfaces;
+using backend.Src.Models;
 
 namespace backend.Src.Services
 {
@@ -17,23 +18,28 @@ namespace backend.Src.Services
             _mapperService = mapperService;
         }
 
+        public async Task<string> AddUser(CreateUserDto createUserDto)
+        {
+            var user = _mapperService.CreateClientDtoToUser(createUserDto);
+            var createdUser = await _usersRepository.Add(user);
+            return createdUser.Name;
+        }
+
         public async Task<List<UserDto>> GetAll()
         {
             var users = await _usersRepository.GetAll();
-
             var mappedUsers = _mapperService.MapUsers(users);
-
             return mappedUsers;
         }
-
-        public async Task<string> Create(CreateUserDto createUserDto)
+        public async Task<UpdateUserDto> UpdateUser(UpdateUserDto updateUserDto, string rut)
         {
-            var user = _mapperService.CreateClientDtoToUser(createUserDto);
-
-            var createdUser = await _usersRepository.Add(user);
-
-            return createdUser.Username;
+            var updatedUser = await _usersRepository.GetByRut(rut);
+            if (updatedUser == null) throw new Exception("User not found");
+            updatedUser = _mapperService.UpdateUserDtoToUser(updateUserDto, updatedUser);
+            var user = await _usersRepository.Update(updatedUser);
+            var mappedDto = _mapperService.MapToUpdateUserDto(user);
+            return mappedDto;
         }
-
     }
+
 }

@@ -3,46 +3,40 @@ using backend.Src.Data;
 using backend.Src.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using backend.Src.Services.Interfaces;
+using backend.Src.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Src.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+
     public class UserController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IUsersService _usersService;
 
         // Inyectamos el contexto para poder acceder a la base de datos
-        public UserController(DataContext context)
+        public UserController(DataContext context, IUsersService usersService)
         {
             // Guardamos en un atributo para utilizarlo cuando lo necesitemos
             _context = context;
+            _usersService = usersService;
         }
 
         [HttpPost("create")]
         public async Task<ActionResult<string>> Create(CreateUserDto createUser)
         {
-            // Buscar al usuario por email
-            var user = new User()
-            {
-                Name = createUser.Name,
-                Lastname = createUser.Lastname,
-                Email = createUser.Email,
-                Rut = createUser.Rut,
-                Points = createUser.Points,
-                RoleId = 2
-            };
-
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            await _usersService.AddUser(createUser);
             return createUser.Email;
         }
 
         [HttpGet("read")]
-        public async Task<ActionResult<string>> Obtain()
+        public async Task<ActionResult<string>> Read()
         {
             // Get all users
-            var users = await _context.Users.ToListAsync();
+            var users = await _usersService.GetAll();
             return Ok(users);
 
         }
@@ -50,16 +44,7 @@ namespace backend.Src.Controllers
         [HttpPut("update/{id}")]
         public async Task<ActionResult<string>> Update(UpdateUserDto updateUser, string id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Rut == id);
-
-            if (user == null) return BadRequest("Invalid Credentials");
-
-            user.Name = updateUser.Name;
-            user.Lastname = updateUser.Lastname;
-            user.Email = updateUser.Email;
-            user.Points = updateUser.Points;
-
-            await _context.SaveChangesAsync();
+            await _usersService.UpdateUser(updateUser, id);
             return updateUser.Email;
         }
 

@@ -9,5 +9,10 @@ namespace backend.Src.Services.Interfaces
         public List<UserDto> MapUsers(List<User> users);
 
         public User CreateClientDtoToUser(CreateUserDto createUserDto);
+
+        public User UpdateUserDtoToUser(UpdateUserDto updateUserDto, User user);
+        public UpdateUserDto MapToUpdateUserDto(User user);
+
+
     }
 }

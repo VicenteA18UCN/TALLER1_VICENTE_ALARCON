@@ -10,8 +10,8 @@ using backend.Src.Data;
 namespace backend.Src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231114185217_UserRoleEntityAdd")]
-    partial class UserRoleEntityAdd
+    [Migration("20231117204551_UserAdminMigration")]
+    partial class UserAdminMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,19 +19,23 @@ namespace backend.Src.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
 
-            modelBuilder.Entity("backend.Src.Models.Role", b =>
+            modelBuilder.Entity("backend.Src.Models.Admin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Admin");
                 });
 
             modelBuilder.Entity("backend.Src.Models.User", b =>
@@ -52,45 +56,16 @@ namespace backend.Src.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Points")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Rut")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
-
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("backend.Src.Models.User", b =>
-                {
-                    b.HasOne("backend.Src.Models.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("backend.Src.Models.Role", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

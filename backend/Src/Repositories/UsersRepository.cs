@@ -21,11 +21,17 @@ namespace backend.Src.Repositories
             return createdUser;
         }
 
+        public async Task<User> Update(User user)
+        {
+            var updateUser = _context.Users.Update(user).Entity;
+            await _context.SaveChangesAsync();
+            return updateUser;
+
+        }
+
         public async Task<List<User>> GetAll()
         {
-            var users = await _context.Users
-                                    .Include(user => user.Role)
-                                    .ToListAsync();
+            var users = await _context.Users.ToListAsync();
             return users;
         }
 
@@ -35,15 +41,14 @@ namespace backend.Src.Repositories
             return user;
         }
 
+        public async Task<User?> GetByRut(string rut)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Rut == rut);
+            return user;
+        }
         public async Task<User?> GetById(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            return user;
-        }
-
-        public async Task<User?> GetByUsername(string username)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
             return user;
         }
     }

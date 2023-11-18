@@ -48,10 +48,10 @@ namespace backend.Src.Controllers
 
         // La ruta es localhost:5267/api/auth/login
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginUserDto loginUserDto)
+        public async Task<ActionResult<string>> Login(LoginAdminDto loginUserDto)
         {
             // Buscar al usuario por email
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginUserDto.Username);
+            var user = await _context.Admin.FirstOrDefaultAsync(u => u.Username == loginUserDto.Username);
 
             // Si el usuario es nulo es porque no existe, así que retornamos credenciales inválidas  -> Http 400 BadRequest
             // NO RETORNAR que el correo es inválido, ya que expone a tus usuarios

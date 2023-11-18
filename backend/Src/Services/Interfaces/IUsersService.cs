@@ -7,7 +7,8 @@ namespace backend.Src.Services.Interfaces
     {
         public Task<List<UserDto>> GetAll();
 
-        public Task<string> Create(CreateUserDto registerUserDto);
+        public Task<string> AddUser(CreateUserDto createUserDto);
+        public Task<UpdateUserDto> UpdateUser(UpdateUserDto updateUserDto, string rut);
 
     }
 }

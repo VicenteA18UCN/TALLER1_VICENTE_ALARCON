@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.Src.DTO
 {
-    public class LoginUserDto
+    public class LoginAdminDto
     {
 
         [Required]

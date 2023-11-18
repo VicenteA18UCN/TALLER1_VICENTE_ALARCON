@@ -12,6 +12,7 @@ namespace backend.Src.Services.Interfaces
 
         public User UpdateUserDtoToUser(UpdateUserDto updateUserDto, User user);
         public UpdateUserDto MapToUpdateUserDto(User user);
+        public CreateUserDto MapToCreateUserDto(User user);
 
 
     }

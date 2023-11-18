@@ -6,9 +6,11 @@ namespace backend.Src.Services.Interfaces
     public interface IUsersService
     {
         public Task<List<UserDto>> GetAll();
-
-        public Task<string> AddUser(CreateUserDto createUserDto);
+        public Task<CreateUserDto> AddUser(CreateUserDto createUserDto);
         public Task<UpdateUserDto> UpdateUser(UpdateUserDto updateUserDto, string rut);
+        public Task<string> DeleteUser(string rut);
+        public Task<CreateUserDto> GetUserByRut(string rut);
+
 
     }
 }

@@ -26,14 +26,14 @@ namespace backend.Src.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<string>> Create(CreateUserDto createUser)
+        public async Task<ActionResult<CreateUserDto>> CreateUser(CreateUserDto createUser)
         {
-            await _usersService.AddUser(createUser);
-            return createUser.Email;
+
+            return await _usersService.AddUser(createUser);
         }
 
         [HttpGet("read")]
-        public async Task<ActionResult<string>> Read()
+        public async Task<ActionResult<string>> GetUsers()
         {
             // Get all users
             var users = await _usersService.GetAll();
@@ -41,23 +41,25 @@ namespace backend.Src.Controllers
 
         }
 
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult<string>> Update(UpdateUserDto updateUser, string id)
+        [HttpPut("update/{rut}")]
+        public async Task<ActionResult<UpdateUserDto>> UpdateUser(UpdateUserDto updateUser, string rut)
         {
-            await _usersService.UpdateUser(updateUser, id);
-            return updateUser.Email;
+
+            return await _usersService.UpdateUser(updateUser, rut);
         }
 
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult<string>> Delete(string id)
+        [HttpDelete("delete/{rut}")]
+        public async Task<ActionResult<string>> DeleteUser(string rut)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Rut == id);
-
-            if (user == null) return BadRequest("Invalid Credentials");
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            await _usersService.DeleteUser(rut);
             return Ok("User deleted");
+        }
+
+        [HttpGet("search/{rut}")]
+        public async Task<ActionResult<CreateUserDto>> GetUser(string rut)
+        {
+            var user = await _usersService.GetUserByRut(rut);
+            return Ok(user);
         }
     }
 }

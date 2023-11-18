@@ -29,6 +29,13 @@ namespace backend.Src.Repositories
 
         }
 
+        public async Task<User> Delete(User user)
+        {
+            var deletedUser = _context.Users.Remove(user).Entity;
+            await _context.SaveChangesAsync();
+            return deletedUser;
+        }
+
         public async Task<List<User>> GetAll()
         {
             var users = await _context.Users.ToListAsync();

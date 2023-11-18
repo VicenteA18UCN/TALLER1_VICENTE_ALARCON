@@ -49,5 +49,11 @@ namespace backend.Src.Services
             var updateUserDto = _mapper.Map<UpdateUserDto>(user);
             return updateUserDto;
         }
+
+        public CreateUserDto MapToCreateUserDto(User user)
+        {
+            var createUserDto = _mapper.Map<CreateUserDto>(user);
+            return createUserDto;
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace backend.Src.Extensions
             CreateMap<User, UserDto>();
             CreateMap<Admin, AdminDto>();
             CreateMap<User, UpdateUserDto>();
+            CreateMap<User, CreateUserDto>();
+            CreateMap<CreateUserDto, User>();
         }
     }
 }

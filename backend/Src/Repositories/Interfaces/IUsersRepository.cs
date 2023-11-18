@@ -6,6 +6,7 @@ namespace backend.Src.Repositories.Interfaces
     {
         public Task<User> Add(User user);
         public Task<User> Update(User user);
+        public Task<User> Delete(User user);
         public Task<User?> GetById(int id);
 
         public Task<User?> GetByEmail(string email);

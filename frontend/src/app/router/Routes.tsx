@@ -10,6 +10,10 @@ export const router = createBrowserRouter([
     children: [
       { path: "/", element: <Navigate to={"/login"} /> },
       { path: "/login", element: <Login /> },
+      {
+        path: "/admin",
+        element: <RequireAuth />,
+      },
     ],
   },
 ]);

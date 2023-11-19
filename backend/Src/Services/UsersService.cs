@@ -1,6 +1,8 @@
 using backend.Src.DTO.Users;
+using backend.Src.DTO;
 using backend.Src.Repositories.Interfaces;
 using backend.Src.Services.Interfaces;
+using backend.Src.Models;
 
 namespace backend.Src.Services
 {
@@ -16,13 +18,46 @@ namespace backend.Src.Services
             _mapperService = mapperService;
         }
 
+        public async Task<CreateUserDto> AddUser(CreateUserDto createUserDto)
+        {
+            var user = _mapperService.CreateClientDtoToUser(createUserDto);
+            var createdUser = await _usersRepository.Add(user);
+            var mappedDto = _mapperService.MapToCreateUserDto(createdUser);
+            return mappedDto;
+        }
+
         public async Task<List<UserDto>> GetAll()
         {
             var users = await _usersRepository.GetAll();
-
             var mappedUsers = _mapperService.MapUsers(users);
-
             return mappedUsers;
         }
+        public async Task<UpdateUserDto> UpdateUser(UpdateUserDto updateUserDto, string rut)
+        {
+            var updatedUser = await _usersRepository.GetByRut(rut);
+            if (updatedUser == null) throw new Exception("User not found");
+            updatedUser = _mapperService.UpdateUserDtoToUser(updateUserDto, updatedUser);
+            var user = await _usersRepository.Update(updatedUser);
+            var mappedDto = _mapperService.MapToUpdateUserDto(user);
+            return mappedDto;
+        }
+
+        public async Task<string> DeleteUser(string rut)
+        {
+            var user = await _usersRepository.GetByRut(rut);
+            if (user == null) throw new Exception("User not found");
+            var deletedUser = await _usersRepository.Delete(user);
+            return "User deleted";
+        }
+
+        public async Task<CreateUserDto> GetUserByRut(string rut)
+        {
+            var user = await _usersRepository.GetByRut(rut);
+            if (user == null) throw new Exception("User not found");
+            var mappedUser = _mapperService.MapToCreateUserDto(user);
+            return mappedUser;
+        }
+
     }
+
 }

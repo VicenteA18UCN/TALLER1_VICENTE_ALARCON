@@ -14,30 +14,55 @@ namespace backend.Src.Repositories
             _context = context;
         }
 
+        public async Task<User> Add(User user)
+        {
+            var createdUser = (await _context.Users.AddAsync(user)).Entity;
+            await _context.SaveChangesAsync();
+            return createdUser;
+        }
+
+        public async Task<User> Update(User user)
+        {
+            var updateUser = _context.Users.Update(user).Entity;
+            await _context.SaveChangesAsync();
+            return updateUser;
+
+        }
+
+        public async Task<User> Delete(User user)
+        {
+            var deletedUser = _context.Users.Remove(user).Entity;
+            await _context.SaveChangesAsync();
+            return deletedUser;
+        }
+
         public async Task<List<User>> GetAll()
         {
-            var users = await _context.Users
-                                    .Include(user => user.Role)
-                                    .ToListAsync();
+            var users = await _context.Users.ToListAsync();
             return users;
         }
 
-        public Task<User> GetByEmail()
+        public async Task<User?> GetByEmail(string email)
         {
-            //TODO: Implementar
-            throw new NotImplementedException();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return user;
         }
 
-        public Task<User> GetById()
+        public async Task<User?> GetByRut(string rut)
         {
-            //TODO: Implementar
-            throw new NotImplementedException();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Rut == rut);
+            return user;
+        }
+        public async Task<User?> GetById(int id)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return user;
         }
 
-        public Task<User> GetByUsername()
+        public async Task<Admin?> GetAdminByUsername(string username)
         {
-            //TODO: Implementar
-            throw new NotImplementedException();
+            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Username == username);
+            return admin;
         }
     }
 }

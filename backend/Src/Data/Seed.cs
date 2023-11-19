@@ -6,24 +6,24 @@ namespace backend.Src.Data
     {
         public async static void SeedData(DataContext context)
         {
-            await SeedRoles(context);
+            await SeedAdmins(context);
             await SeedUsers(context);
         }
 
-        private async static Task SeedRoles(DataContext context)
+        private async static Task SeedAdmins(DataContext context)
         {
-            if (context.Roles.Any()) return;
+            if (context.Admins.Any()) return;
 
-            var roles = new List<Role>(){
-                new(){
-                    Name = "admin"
+            var admin = new List<Admin>(){
+                                new(){
+
+                    Username = "Ochietto",
+                    Password =  BCrypt.Net.BCrypt.HashPassword("Jaqamain3pals", BCrypt.Net.BCrypt.GenerateSalt(12)),
                 },
-                new(){
-                    Name = "client"
-                }
+
             };
 
-            await context.Roles.AddRangeAsync(roles);
+            await context.Admins.AddRangeAsync(admin);
             await context.SaveChangesAsync();
         }
 
@@ -33,12 +33,11 @@ namespace backend.Src.Data
 
             var users = new List<User>(){
                 new(){
-                    Name= "Admin",
-                    Lastname = "Admin",
-                    Email = "Ochietto",
-                    Password =  BCrypt.Net.BCrypt.HashPassword("Jaqamain3pals", BCrypt.Net.BCrypt.GenerateSalt(12)),
-                    RoleId = 1,
-                    Points = 0
+                    Name= "Vicente",
+                    Lastname = "Alarcón",
+                    Email = "vicente.alarcon@alumnos.ucn",
+                    Rut = "21.177.605-6",
+                    Points = 20
                 },
             };
 

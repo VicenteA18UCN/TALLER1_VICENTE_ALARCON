@@ -26,6 +26,7 @@ namespace backend.Src.Extensions
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<IUsersRepository, UsersRepository>();
+            // services.AddScoped<IAdministratorsRepository, AdministratorsRepository>();
         }
         private static void AddSwaggerGen(IServiceCollection services)
         {
@@ -35,6 +36,7 @@ namespace backend.Src.Extensions
         {
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IMapperService, MapperService>();
+            services.AddScoped<IAuthService, AuthService>(); 
         }
 
         private static void AddDbContext(IServiceCollection services)

@@ -3,6 +3,7 @@ using backend.Src.Data;
 using backend.Src.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using backend.Src.Services.Interfaces;
 
 namespace backend.Src.Controllers
 {
@@ -11,12 +12,15 @@ namespace backend.Src.Controllers
     public class AuthController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IAuthService _authService;
 
         // Inyectamos el contexto para poder acceder a la base de datos
-        public AuthController(DataContext context)
+        public AuthController(DataContext context, IAuthService authService)
         {
             // Guardamos en un atributo para utilizarlo cuando lo necesitemos
             _context = context;
+            _authService = authService;
+
         }
 
         // La ruta es localhost:5267/api/auth/register
@@ -50,22 +54,13 @@ namespace backend.Src.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(LoginAdminDto loginUserDto)
         {
-            // Buscar al usuario por email
-            var user = await _context.Admin.FirstOrDefaultAsync(u => u.Username == loginUserDto.Username);
+            var checkCredentials = await _authService.CheckCredentials(loginUserDto);
+            if (!checkCredentials) return BadRequest("Invalid Credentials");
 
-            // Si el usuario es nulo es porque no existe, así que retornamos credenciales inválidas  -> Http 400 BadRequest
-            // NO RETORNAR que el correo es inválido, ya que expone a tus usuarios
-            if (user is null) return BadRequest("Invalid Credentials");
-
-            // Comparamos la clave ingresada con la clave guardad en la base de datos
-            var result = BCrypt.Net.BCrypt.Verify(loginUserDto.Password, user.Password);
-
-            // Si no coinciden entonces retornamos credenciales inválidas -> Http 400 BadRequest
-            if (!result) return BadRequest("Invalid Credentials");
-
-            // IMPORTANTE: Actualmente devolvemos el email, pero se deberia devolver la información
-            // y su JWT
-            return "logged";
+            var token = _authService.GenerateToken(loginUserDto.Username);
+            if (string.IsNullOrEmpty(token)) return BadRequest("Token error");
+            
+            return Ok(new { Token = token });
         }
     }
 }

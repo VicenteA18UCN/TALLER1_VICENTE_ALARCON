@@ -58,5 +58,11 @@ namespace backend.Src.Repositories
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             return user;
         }
+
+        public async Task<Admin?> GetAdminByUsername(string username)
+        {
+            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Username == username);
+            return admin;
+        }
     }
 }

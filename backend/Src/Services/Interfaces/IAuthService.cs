@@ -5,7 +5,8 @@ namespace backend.Src.Services.Interfaces
 {
     public interface IAuthService
     {
-        public string? GenerateToken(string rut);
+        public string? GenerateToken(string username);
+        public Task<bool> CheckCredentials(LoginAdminDto loginAdminDto);
 
     }
 }

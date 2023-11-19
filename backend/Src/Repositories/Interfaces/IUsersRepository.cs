@@ -12,5 +12,6 @@ namespace backend.Src.Repositories.Interfaces
         public Task<User?> GetByEmail(string email);
         public Task<User?> GetByRut(string rut);
         public Task<List<User>> GetAll();
+        public Task<Admin?> GetAdminByUsername(string username);
     }
 }

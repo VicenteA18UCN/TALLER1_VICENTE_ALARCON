@@ -7,7 +7,7 @@ namespace backend.Src.Data
     {
         //Entity Framework Tables
         public DbSet<User> Users { get; set; } = null!;
-        public DbSet<Admin> Admin { get; set; } = null!;
+        public DbSet<Admin> Admins { get; set; } = null!;
         public DataContext(DbContextOptions options) : base(options)
         {
 

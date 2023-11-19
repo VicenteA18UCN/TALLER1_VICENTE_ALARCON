@@ -32,7 +32,7 @@ namespace backend.Src.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Admin");
+                    b.ToTable("Admins");
                 });
 
             modelBuilder.Entity("backend.Src.Models.User", b =>

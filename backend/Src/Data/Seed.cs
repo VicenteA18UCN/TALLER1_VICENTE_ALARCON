@@ -6,13 +6,13 @@ namespace backend.Src.Data
     {
         public async static void SeedData(DataContext context)
         {
-            await SeedAdmin(context);
+            await SeedAdmins(context);
             await SeedUsers(context);
         }
 
-        private async static Task SeedAdmin(DataContext context)
+        private async static Task SeedAdmins(DataContext context)
         {
-            if (context.Admin.Any()) return;
+            if (context.Admins.Any()) return;
 
             var admin = new List<Admin>(){
                                 new(){
@@ -23,7 +23,7 @@ namespace backend.Src.Data
 
             };
 
-            await context.Admin.AddRangeAsync(admin);
+            await context.Admins.AddRangeAsync(admin);
             await context.SaveChangesAsync();
         }
 

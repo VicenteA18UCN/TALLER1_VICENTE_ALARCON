@@ -5,13 +5,13 @@
 namespace backend.Src.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class UserAdminMigration : Migration
+    public partial class AdminUserMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Admin",
+                name: "Admins",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -21,7 +21,7 @@ namespace backend.Src.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Admin", x => x.Id);
+                    table.PrimaryKey("PK_Admins", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,7 +46,7 @@ namespace backend.Src.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Admin");
+                name: "Admins");
 
             migrationBuilder.DropTable(
                 name: "Users");

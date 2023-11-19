@@ -39,6 +39,7 @@ const Login = () => {
       .then((response: any) => {
         dispatch(login(response.token));
         console.log(response);
+        navigate("/admin/list");
       })
       .catch((error) => {
         console.log(error);

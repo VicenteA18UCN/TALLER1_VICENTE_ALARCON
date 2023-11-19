@@ -1,12 +1,18 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectId } from "../../features/auth/adminSlice";
+import Navbar from "../layout/Navbar";
 
 export default function RequireAuth() {
-  const adminId = useSelector(selectId);
-  if (adminId === "") {
-    return <Navigate to="/login" />;
+  const userId = useSelector(selectId);
+  if (userId) {
+    return (
+      <>
+        <Navbar />
+        <Outlet />
+      </>
+    );
   } else {
-    return <Outlet />;
+    return <Navigate to="/login" />;
   }
 }

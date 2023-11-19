@@ -1,22 +1,40 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {jwtDecode} from "jwt-decode";
 import { RootState } from "../../app/store/store";
 
-const initialState = {
+interface JwtPayload {
+    "nameid": string,
+    "unique_name": string,
+    "nbf": number,
+    "exp": number,
+    "iat": number
+}
+
+export interface AdminState
+{
+    id: string | null;
+    username: string | null;
+    token: string | null;
+
+}
+
+const initialState: AdminState = {
     id: null,
     username: null,
     token: null,
 };
 
+
+
 export const adminSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        login(state, action) {
-            const {id, username, token} = action.payload;
-            state.id = id;
-            state.username = username;
-            state.token = token;
+        login(state: any, action: PayloadAction<string>) {
+            const payload = jwtDecode<JwtPayload>(action.payload);
+            state.id = payload.nameid ?? "";
+            state.username = payload.unique_name;
+            state.token = action.payload;
         },
         logout(state) {
             state.id = null;

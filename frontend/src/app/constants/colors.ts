@@ -1,0 +1,1 @@
+export const primaryGreen = " #2da84c";

@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using backend.Src.DTO;
 using backend.Src.Util;
+using backend.Src.Models;
 namespace backend.Src.Services
 {
     public class AuthService : IAuthService
@@ -19,7 +20,7 @@ namespace backend.Src.Services
             _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
         }
 
-        public string? GenerateToken(string username)
+        public string? GenerateToken(string username, int id)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSecret);
@@ -27,7 +28,9 @@ namespace backend.Src.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]{
-                    new Claim(ClaimTypes.NameIdentifier, username)
+                    new Claim(ClaimTypes.NameIdentifier, id.ToString()),
+                    new Claim(ClaimTypes.Name, username),
+
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -48,6 +51,12 @@ namespace backend.Src.Services
             var user = await _usersRepository.GetAdminByUsername(loginAdminDto.Username);
             if (user == null) return false;
             return BCryptHelper.CheckPassword(loginAdminDto.Password, user.Password);
+        }
+
+        public async Task<Admin?> GetAdmin(string username)
+        {
+            var admin = await _usersRepository.GetAdminByUsername(username);
+            return admin;
         }
     }
 }

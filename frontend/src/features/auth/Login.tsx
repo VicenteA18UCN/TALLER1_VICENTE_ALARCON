@@ -6,16 +6,27 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
 import { Button, TextField, Typography } from "@mui/material";
 import agent from "../../app/api/agent";
+import { useDispatch, useSelector } from "react-redux";
+import { login, selectId } from "./adminSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const id = useSelector(selectId);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const username = data.get("username")?.toString() ?? "";
     const password = data.get("password")?.toString() ?? "";
-    agent.Auth.login(username, password).then((response: any) => {
-      console.log(response);
-    });
+    agent.Auth.login(username, password)
+      .then((response: any) => {
+        dispatch(login(response.token));
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <React.Fragment>

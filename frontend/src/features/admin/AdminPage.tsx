@@ -13,6 +13,8 @@ import ClientTable from "../clients/ClientTable";
 import agent from "../../app/api/agent";
 import { Client } from "../../app/models/Client";
 import EditUserForm from "../clients/EditUserForm";
+import SearchClient from "../clients/SearchClient";
+import DeleteDialog from "../clients/DeleteDialog";
 
 const defaultClient: Client = {
   id: 0,
@@ -25,13 +27,19 @@ const defaultClient: Client = {
 
 const AdminPage = () => {
   const [clients, setClients] = React.useState<Client[]>([]);
+  const [searchResults, setSearchResults] = React.useState<Client[]>(clients);
   const [currentClient, setCurrentClient] =
     React.useState<Client>(defaultClient);
+
   const [isEditFormOpen, setIsEditFormOpen] = React.useState<boolean>(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] =
+    React.useState<boolean>(false);
+
   React.useEffect(() => {
     agent.Clients.list()
       .then((response) => {
         setClients(response);
+        setSearchResults(response);
       })
       .catch((error) => {
         console.log(error);
@@ -41,8 +49,10 @@ const AdminPage = () => {
   const handleDeleteClient = (id: number) => {
     agent.Clients.delete(id)
       .then((response) => {
+        setSearchResults(clients.filter((client) => client.id !== id));
         setClients(clients.filter((client) => client.id !== id));
         console.log(response);
+        handleCloseDeleteForm();
       })
       .catch((error) => {
         console.log(error);
@@ -65,12 +75,28 @@ const AdminPage = () => {
               : client
           )
         );
+        setSearchResults((prevClients) =>
+          prevClients.map((client) =>
+            client.id === updatedClient.id
+              ? { ...client, ...updatedClient }
+              : client
+          )
+        );
         console.log(response);
         handleCloseEditForm();
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleOpenDeleteForm = (client: Client) => {
+    setIsDeleteDialogOpen(true);
+    setCurrentClient(client);
+  };
+  const handleCloseDeleteForm = () => {
+    setIsDeleteDialogOpen(false);
+    setCurrentClient(defaultClient);
   };
 
   const handleEditClient = (client: Client) => {
@@ -83,6 +109,15 @@ const AdminPage = () => {
     setIsEditFormOpen(false);
   };
 
+  const handleSearch = (searchString: string) => {
+    const results = clients.filter(
+      (client) =>
+        client.rut.startsWith(searchString) ||
+        client.email.startsWith(searchString)
+    );
+    setSearchResults(results);
+  };
+
   return (
     <Container maxWidth="xl">
       <Paper elevation={3} sx={{ padding: "20px 15px", margin: "2rem 0" }}>
@@ -92,9 +127,11 @@ const AdminPage = () => {
               Gestión de Usuarios
             </Typography>
 
+            <SearchClient handleSearch={handleSearch} />
+
             <ClientTable
-              initialClient={clients}
-              handleDelete={handleDeleteClient}
+              initialClient={searchResults}
+              handleDelete={handleOpenDeleteForm}
               handleEdit={handleEditClient}
             />
             {isEditFormOpen && (
@@ -103,6 +140,15 @@ const AdminPage = () => {
                 initialClient={currentClient}
                 handleClickClose={handleCloseEditForm}
                 handleClickUpdate={handleClickUpdate}
+              />
+            )}
+
+            {isDeleteDialogOpen && (
+              <DeleteDialog
+                isOpen={isDeleteDialogOpen}
+                deleteClient={currentClient}
+                handleClickClose={handleCloseDeleteForm}
+                handleClickDelete={handleDeleteClient}
               />
             )}
           </Grid>

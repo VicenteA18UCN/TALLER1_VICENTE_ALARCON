@@ -36,7 +36,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 interface Props {
   initialClient: Client[];
-  handleDelete: (id: number) => void;
+  handleDelete: (client: Client) => void;
   handleEdit: (client: Client) => void;
 }
 
@@ -85,7 +85,7 @@ const ClientsTable = ({ initialClient, handleDelete, handleEdit }: Props) => {
                   aria-label="delete"
                   size="small"
                   color="error"
-                  onClick={() => handleDelete(client.id)}
+                  onClick={() => handleDelete(client)}
                 >
                   <DeleteIcon />
                 </IconButton>

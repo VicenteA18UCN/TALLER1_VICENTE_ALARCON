@@ -45,9 +45,6 @@ const EditUserForm = ({
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
       <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>Editar Cliente</DialogTitle>
         <DialogContent>

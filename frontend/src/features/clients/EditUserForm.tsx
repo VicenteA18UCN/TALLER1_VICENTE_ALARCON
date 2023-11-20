@@ -13,9 +13,15 @@ interface Props {
   isOpen: boolean;
   initialClient: Client;
   handleClickClose: () => void;
+  handleClickUpdate: (client: Client) => void;
 }
 
-const EditUserForm = ({ isOpen, initialClient, handleClickClose }: Props) => {
+const EditUserForm = ({
+  isOpen,
+  initialClient,
+  handleClickClose,
+  handleClickUpdate,
+}: Props) => {
   const [open, setOpen] = React.useState(isOpen);
   const [client, setClient] = React.useState<Client>(initialClient);
 
@@ -28,15 +34,6 @@ const EditUserForm = ({ isOpen, initialClient, handleClickClose }: Props) => {
     setClient({ ...client, [event.target.id]: event.target.value });
   };
 
-  const handleClickUpdate = (client: Client) => {
-    agent.Clients.update(
-      client.rut,
-      client.name,
-      client.lastname,
-      client.email,
-      client.points
-    );
-  };
   const handleClose = () => {
     setOpen(false);
     handleClickClose();
@@ -51,7 +48,7 @@ const EditUserForm = ({ isOpen, initialClient, handleClickClose }: Props) => {
       <Button variant="outlined" onClick={handleClickOpen}>
         Open form dialog
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>Editar Cliente</DialogTitle>
         <DialogContent>
           <TextField

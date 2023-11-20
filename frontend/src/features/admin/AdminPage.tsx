@@ -49,6 +49,30 @@ const AdminPage = () => {
       });
   };
 
+  const handleClickUpdate = (updatedClient: Client) => {
+    agent.Clients.update(
+      updatedClient.rut,
+      updatedClient.name,
+      updatedClient.lastname,
+      updatedClient.email,
+      updatedClient.points
+    )
+      .then((response) => {
+        setClients((prevClients) =>
+          prevClients.map((client) =>
+            client.id === updatedClient.id
+              ? { ...client, ...updatedClient }
+              : client
+          )
+        );
+        console.log(response);
+        handleCloseEditForm();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleEditClient = (client: Client) => {
     setIsEditFormOpen(true);
     setCurrentClient(client);
@@ -78,6 +102,7 @@ const AdminPage = () => {
                 isOpen={isEditFormOpen}
                 initialClient={currentClient}
                 handleClickClose={handleCloseEditForm}
+                handleClickUpdate={handleClickUpdate}
               />
             )}
           </Grid>

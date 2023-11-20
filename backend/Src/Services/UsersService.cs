@@ -42,9 +42,9 @@ namespace backend.Src.Services
             return mappedDto;
         }
 
-        public async Task<string> DeleteUser(string rut)
+        public async Task<string> DeleteUser(int id)
         {
-            var user = await _usersRepository.GetByRut(rut);
+            var user = await _usersRepository.GetById(id);
             if (user == null) throw new Exception("User not found");
             var deletedUser = await _usersRepository.Delete(user);
             return "User deleted";

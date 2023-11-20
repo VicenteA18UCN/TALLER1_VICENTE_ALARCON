@@ -8,7 +8,7 @@ namespace backend.Src.Services.Interfaces
         public Task<List<UserDto>> GetAll();
         public Task<CreateUserDto> AddUser(CreateUserDto createUserDto);
         public Task<UpdateUserDto> UpdateUser(UpdateUserDto updateUserDto, string rut);
-        public Task<string> DeleteUser(string rut);
+        public Task<string> DeleteUser(int id);
         public Task<CreateUserDto> GetUserByRut(string rut);
 
 

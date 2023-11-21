@@ -129,6 +129,3 @@ const Login = () => {
 };
 
 export default Login;
-function delay(arg0: number) {
-  throw new Error("Function not implemented.");
-}

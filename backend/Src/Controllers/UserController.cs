@@ -48,10 +48,10 @@ namespace backend.Src.Controllers
             return await _usersService.UpdateUser(updateUser, rut);
         }
 
-        [HttpDelete("delete/{rut}")]
-        public async Task<ActionResult<string>> DeleteUser(string rut)
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult<string>> DeleteUser(int id)
         {
-            await _usersService.DeleteUser(rut);
+            await _usersService.DeleteUser(id);
             return Ok("User deleted");
         }
 

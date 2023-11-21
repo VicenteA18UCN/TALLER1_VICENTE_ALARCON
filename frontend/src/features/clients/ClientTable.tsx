@@ -9,6 +9,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import exp from "constants";
 import { primaryGreen } from "../../app/constants/colors";
+import { Client } from "../../app/models/Client";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Icon, IconButton } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -30,49 +34,62 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
+interface Props {
+  initialClient: Client[];
+  handleDelete: (client: Client) => void;
+  handleEdit: (client: Client) => void;
 }
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+const ClientsTable = ({ initialClient, handleDelete, handleEdit }: Props) => {
+  const [clients, setClients] = React.useState<Client[]>(initialClient);
 
-const ClientsTable = () => {
+  React.useEffect(() => {
+    setClients(initialClient);
+  }, [initialClient]);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center">
-              Dessert (100g serving)
-            </StyledTableCell>
-            <StyledTableCell align="center">Calories</StyledTableCell>
-            <StyledTableCell align="center">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="center">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="center">Nombre</StyledTableCell>
+
+            <StyledTableCell align="center">Apellido</StyledTableCell>
+            <StyledTableCell align="center">RUT o DNI</StyledTableCell>
+            <StyledTableCell align="center">Correo electrónico</StyledTableCell>
+            <StyledTableCell align="center">Puntos</StyledTableCell>
+            <StyledTableCell align="center">Acciones</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
+          {clients.map((client) => (
+            <StyledTableRow key={client.id}>
               <StyledTableCell component="th" scope="row" align="center">
-                {row.name}
+                {client.name}
               </StyledTableCell>
-              <StyledTableCell align="center">{row.calories}</StyledTableCell>
-              <StyledTableCell align="center">{row.fat}</StyledTableCell>
-              <StyledTableCell align="center">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="center">{row.protein}</StyledTableCell>
+              <StyledTableCell align="center">
+                {client.lastname}
+              </StyledTableCell>
+              <StyledTableCell align="center">{client.rut}</StyledTableCell>
+              <StyledTableCell align="center">{client.email}</StyledTableCell>
+              <StyledTableCell align="center">{client.points}</StyledTableCell>
+              <StyledTableCell align="center">
+                <IconButton
+                  aria-label="edit"
+                  size="small"
+                  onClick={() => handleEdit(client)}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="error"
+                  onClick={() => handleDelete(client)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

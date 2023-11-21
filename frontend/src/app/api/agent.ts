@@ -17,6 +17,7 @@ const Auth = {
 };
 
 const Clients = {
+  create: (rut:string, name:string, lastname:string, email:string, points:number) => requests.post('User/create', {rut, name, lastname, email, points}),
   list: () =>  requests.get('User/read'),
   delete : (id: number) => requests.delete(`User/delete/${id}`),
   update: (rut:string, name:string, lastname:string, email:string, points:number) => requests.put(`User/update/${rut}`, {name, lastname, email, points}),

@@ -4,10 +4,8 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Client } from "../../app/models/Client";
-import agent from "../../app/api/agent";
 
 interface Props {
   isOpen: boolean;
@@ -33,10 +31,6 @@ const CreateUserForm = ({
   const [open, setOpen] = React.useState(isOpen);
   const [client, setClient] = React.useState<Client>(defaultClient);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClientChange = (event: any) => {
     const { id, value } = event.target;
     setClient({ ...client, [id]: value });
@@ -49,7 +43,6 @@ const CreateUserForm = ({
   };
   const handleOnSubmit = () => {
     handleClickCreate(client);
-    handleClose();
   };
 
   return (

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Src.Services.Interfaces;
 using backend.Src.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace backend.Src.Controllers
 {
@@ -28,6 +29,27 @@ namespace backend.Src.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<CreateUserDto>> CreateUser(CreateUserDto createUser)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existsRut = await _usersService.CheckRut(createUser.Rut);
+            if (existsRut)
+            {
+                ModelState.AddModelError("Rut", "Rut already exists");
+            }
+
+            var existsEmail = await _usersService.CheckEmail(createUser.Email);
+            if (existsEmail)
+            {
+                ModelState.AddModelError("Email", "Email already exists");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             return await _usersService.AddUser(createUser);
         }
@@ -44,6 +66,23 @@ namespace backend.Src.Controllers
         [HttpPut("update/{rut}")]
         public async Task<ActionResult<UpdateUserDto>> UpdateUser(UpdateUserDto updateUser, string rut)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await _usersService.GetUserByRut(rut);
+
+            var existsEmail = await _usersService.CheckEmail(updateUser.Email);
+            if (existsEmail && user.Email != updateUser.Email)
+            {
+                ModelState.AddModelError("Email", "Email already exists");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
 
             return await _usersService.UpdateUser(updateUser, rut);
         }

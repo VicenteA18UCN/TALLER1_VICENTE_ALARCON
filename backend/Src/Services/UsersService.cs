@@ -58,6 +58,28 @@ namespace backend.Src.Services
             return mappedUser;
         }
 
+        public async Task<CreateUserDto> GetUserByEmail(string email)
+        {
+            var user = await _usersRepository.GetByEmail(email);
+            if (user == null) throw new Exception("User not found");
+            var mappedUser = _mapperService.MapToCreateUserDto(user);
+            return mappedUser;
+        }
+
+        public async Task<bool> CheckEmail(string email)
+        {
+            var user = await _usersRepository.GetByEmail(email);
+            if (user == null) return false;
+            return true;
+        }
+
+        public async Task<bool> CheckRut(string rut)
+        {
+            var user = await _usersRepository.GetByRut(rut);
+            if (user == null) return false;
+            return true;
+        }
+
     }
 
 }

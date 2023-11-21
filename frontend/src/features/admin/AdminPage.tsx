@@ -1,14 +1,5 @@
 import * as React from "react";
-import {
-  Button,
-  Container,
-  TextField,
-  Typography,
-  Grid,
-  Paper,
-} from "@mui/material";
-import { selectId, selectToken } from "../auth/adminSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { Button, Container, Typography, Grid, Paper } from "@mui/material";
 import ClientTable from "../clients/ClientTable";
 import agent from "../../app/api/agent";
 import { Client } from "../../app/models/Client";
@@ -16,6 +7,7 @@ import EditUserForm from "../clients/EditUserForm";
 import SearchClient from "../clients/SearchClient";
 import DeleteDialog from "../clients/DeleteDialog";
 import CreateUserForm from "../clients/CreateUserForm";
+import { toast } from "react-toastify";
 
 const defaultClient: Client = {
   id: 0,
@@ -61,11 +53,58 @@ const AdminPage = () => {
         handleCloseCreateForm();
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
+        let errorDefault: string = "Ha ocurrido un error. Intente nuevamente.";
+        console.log(error.response);
+        switch (error.response.status) {
+          case 400:
+            if (error.response.data.errors?.Rut) {
+              errorDefault = "El rut no puede estar vacío.";
+            } else if (error.response.data.errors?.Name) {
+              errorDefault = "El nombre no puede estar vacío.";
+            } else if (error.response.data.errors?.Lastname) {
+              errorDefault = "El apellido no puede estar vacío.";
+            } else if (error.response.data.errors?.Email) {
+              if (
+                error.response.data.errors.Email.includes(
+                  "The Email field is required."
+                )
+              ) {
+                errorDefault = "El email no puede estar vacío.";
+              } else if (
+                error.response.data.errors.Email.includes(
+                  "The Email field is not a valid e-mail address."
+                )
+              ) {
+                errorDefault = "El email no es válido.";
+              }
+            } else if (error.response.data?.Email) {
+              errorDefault = "El Email ya existe.";
+            } else if (error.response.data?.Rut) {
+              errorDefault = "El Rut ya existe.";
+            }
+            break;
+          case 500:
+            errorDefault = "Ha ocurrido un error. Intente nuevamente.";
+            break;
+          default:
+            break;
+        }
+        toast.error(errorDefault, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+        });
       });
   };
 
-  const handleDeleteClient = (id: number) => {
+  const handleClickDelete = (id: number) => {
+    console.log(id);
     agent.Clients.delete(id)
       .then((response) => {
         setClients(clients.filter((client) => client.id !== id));
@@ -73,7 +112,7 @@ const AdminPage = () => {
         handleCloseDeleteForm();
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data);
       });
   };
 
@@ -97,7 +136,47 @@ const AdminPage = () => {
         handleCloseEditForm();
       })
       .catch((error) => {
-        console.log(error);
+        let errorDefault: string = "Ha ocurrido un error. Intente nuevamente.";
+        switch (error.response.status) {
+          case 400:
+            if (error.response.data.errors?.Name) {
+              errorDefault = "El nombre no puede estar vacío.";
+            } else if (error.response.data.errors?.Lastname) {
+              errorDefault = "El apellido no puede estar vacío.";
+            } else if (error.response.data.errors?.Email) {
+              if (
+                error.response.data.errors.Email.includes(
+                  "The Email field is required."
+                )
+              ) {
+                errorDefault = "El email no puede estar vacío.";
+              } else if (
+                error.response.data.errors.Email.includes(
+                  "The Email field is not a valid e-mail address."
+                )
+              ) {
+                errorDefault = "El email no es válido.";
+              }
+            } else if (error.response.data.Email) {
+              errorDefault = "El Email ya existe.";
+            }
+            break;
+          case 500:
+            errorDefault = "Ha ocurrido un error. Intente nuevamente.";
+            break;
+          default:
+            break;
+        }
+        toast.error(errorDefault, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+        });
       });
   };
 
@@ -184,7 +263,7 @@ const AdminPage = () => {
                 isOpen={isDeleteDialogOpen}
                 deleteClient={currentClient}
                 handleClickClose={handleCloseDeleteForm}
-                handleClickDelete={handleDeleteClient}
+                handleClickDelete={handleClickDelete}
               />
             )}
           </Grid>

@@ -10,7 +10,8 @@ namespace backend.Src.Services.Interfaces
         public Task<UpdateUserDto> UpdateUser(UpdateUserDto updateUserDto, string rut);
         public Task<string> DeleteUser(int id);
         public Task<CreateUserDto> GetUserByRut(string rut);
-
-
+        public Task<CreateUserDto> GetUserByEmail(string email);
+        public Task<bool> CheckEmail(string email);
+        public Task<bool> CheckRut(string rut);
     }
 }

@@ -4,6 +4,7 @@ namespace backend.Src.DTO
 {
     public class CreateUserDto
     {
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
         [Required]

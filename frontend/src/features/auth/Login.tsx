@@ -1,21 +1,18 @@
 import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
 import { Button, TextField, Typography } from "@mui/material";
 import agent from "../../app/api/agent";
-import { useDispatch, useSelector } from "react-redux";
-import { login, selectId } from "./adminSlice";
+import { useDispatch } from "react-redux";
+import { login } from "./adminSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { time } from "console";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const id = useSelector(selectId);
   const resetFormFields = () => {
     const usernameField = document.getElementById(
       "username"

@@ -147,7 +147,7 @@ namespace backend.Src.Data
                     Name= "Eduardo Andrés",
                     Lastname = "Vargas Sánchez",
                     Email = "eduardo@example.ucn",
-                    Rut = "13.765.432-5",
+                    Rut = "13.121.650-4",
                     Points = 29
                 },
 
@@ -155,7 +155,7 @@ namespace backend.Src.Data
                     Name= "Patricia Andrea",
                     Lastname = "Gutiérrez Fuentes",
                     Email = "patricia@example.ucn",
-                    Rut = "19.654.321-6",
+                    Rut = "19.654.185-6",
                     Points = 26
                 },
 

@@ -10,8 +10,8 @@ using backend.Src.Data;
 namespace backend.Src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231119125239_AdminUserMigration")]
-    partial class AdminUserMigration
+    [Migration("20231121110232_AdminUserMigrations")]
+    partial class AdminUserMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,6 +64,12 @@ namespace backend.Src.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Rut")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

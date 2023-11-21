@@ -23,33 +23,6 @@ namespace backend.Src.Controllers
 
         }
 
-        // La ruta es localhost:5267/api/auth/register
-        // [HttpPost("register")]
-        // public async Task<ActionResult<string>> Register(RegisterClientDto registerClientDto)
-        // {
-        //     // Generamos la sal
-        //     var salt = BCrypt.Net.BCrypt.GenerateSalt(12);
-        //     // Encriptamos la contraseña
-        //     string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerClientDto.Password, salt);
-        //     // Traspasamos la información del DTO al nuevo usuario a crear
-        //     var user = new User()
-        //     {
-        //         Email = registerClientDto.Email,
-        //         Name = registerClientDto.Name,
-        //         Password = passwordHash,
-        //         // El id de rol del usuario debe coincidir con el de cliente
-        //         // más adelante vamos a utilizar una manera más elegante
-        //         RoleId = 2
-        //     };
-        //     // Agregamos el nuevo usuario
-        //     await _context.Users.AddAsync(user);
-        //     // Guardamos los cambios
-        //     await _context.SaveChangesAsync();
-        //     // IMPORTANTE: Actualmente devolvemos el email, pero se deberia devolver la información
-        //     // y su JWT
-        //     return registerClientDto.Email;
-        // }
-
         // La ruta es localhost:5267/api/auth/login
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(LoginAdminDto loginUserDto)

@@ -5,7 +5,7 @@
 namespace backend.Src.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AdminUserMigration : Migration
+    public partial class AdminUserMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,6 +40,18 @@ namespace backend.Src.Data.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Rut",
+                table: "Users",
+                column: "Rut",
+                unique: true);
         }
 
         /// <inheritdoc />

@@ -85,11 +85,12 @@ const EditUserForm = ({
             margin="dense"
             id="points"
             label="Puntos"
-            type="text"
+            type="number"
             fullWidth
             variant="standard"
             value={client.points.toString()}
             onChange={(e) => handleClientChange(e)}
+            inputProps={{ min: "0" }}
           />
         </DialogContent>
         <DialogActions>

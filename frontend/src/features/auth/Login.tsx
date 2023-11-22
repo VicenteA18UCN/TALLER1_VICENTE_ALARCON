@@ -1,21 +1,21 @@
 import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import agent from "../../app/api/agent";
-import { useDispatch, useSelector } from "react-redux";
-import { login, selectId } from "./adminSlice";
+import { useDispatch } from "react-redux";
+import { login } from "./adminSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { time } from "console";
+import logo from "../auth/assets/images/logo.png";
+import { primaryGreen } from "../../app/constants/colors";
+import { BoltRounded } from "@mui/icons-material";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const id = useSelector(selectId);
   const resetFormFields = () => {
     const usernameField = document.getElementById(
       "username"
@@ -76,55 +76,98 @@ const Login = () => {
       });
   };
   return (
-    <React.Fragment>
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Inicia Sesión
-          </Typography>
-        </Box>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Usuario"
-            name="username"
-            autoComplete="username"
-            autoFocus
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Contraseña"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+    <>
+      <Container
+        maxWidth="xl"
+        sx={{
+          height: "100vh",
+          background: "linear-gradient(to bottom, #effbe2, #e8f6e2)",
+        }}
+      >
+        <Container component="main" maxWidth="xs">
+          <Box
+            sx={{
+              marginTop: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            Iniciar Sesión{" "}
-          </Button>
-        </Box>
+            <img
+              src={logo}
+              alt="logo"
+              width={200}
+              height={200}
+              style={{ marginTop: "50px" }}
+            />
+            <Typography
+              component="h1"
+              variant="h5"
+              color={primaryGreen}
+              fontSize={30}
+              fontWeight={700}
+              mb={2}
+            >
+              ¡Dumbo te da menos!
+            </Typography>
+          </Box>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            border={1}
+            borderColor="success.main"
+            borderRadius={2}
+            sx={{
+              mt: 1,
+              alignItems: "center",
+              flexDirection: "column",
+              display: "flex",
+              backgroundColor: "#fff",
+              padding: "30px",
+            }}
+          >
+            <Typography
+              component="h1"
+              variant="h5"
+              fontSize={35}
+              fontWeight={500}
+            >
+              Inicia Sesión
+            </Typography>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Usuario"
+              name="username"
+              autoComplete="username"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Contraseña"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="success"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Iniciar Sesión{" "}
+            </Button>
+          </Box>
+        </Container>
       </Container>
-    </React.Fragment>
+    </>
   );
 };
 

@@ -16,15 +16,6 @@ namespace backend.Src.Repositories
 
         public async Task<User> Add(User user)
         {
-            if (await _context.Users.AnyAsync(u => u.Rut == user.Rut))
-            {
-                throw new Exception("El Rut ya existe");
-            }
-            else if (await _context.Users.AnyAsync(u => u.Email == user.Email))
-            {
-                throw new Exception("El Email ya existe");
-            }
-
             var createdUser = (await _context.Users.AddAsync(user)).Entity;
             await _context.SaveChangesAsync();
             return createdUser;
@@ -32,14 +23,6 @@ namespace backend.Src.Repositories
 
         public async Task<User> Update(User user)
         {
-            if (await _context.Users.AnyAsync(u => u.Rut == user.Rut))
-            {
-                throw new Exception("El Rut ya existe");
-            }
-            else if (await _context.Users.AnyAsync(u => u.Email == user.Email))
-            {
-                throw new Exception("El Email ya existe");
-            }
             var updateUser = _context.Users.Update(user).Entity;
             await _context.SaveChangesAsync();
             return updateUser;

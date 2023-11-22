@@ -4,10 +4,8 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Client } from "../../app/models/Client";
-import agent from "../../app/api/agent";
 
 interface Props {
   isOpen: boolean;
@@ -25,10 +23,6 @@ const EditUserForm = ({
   const [open, setOpen] = React.useState(isOpen);
   const [client, setClient] = React.useState<Client>(initialClient);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClientChange = (event: any) => {
     console.log(event);
     setClient({ ...client, [event.target.id]: event.target.value });
@@ -40,7 +34,6 @@ const EditUserForm = ({
   };
   const handleOnSubmit = () => {
     handleClickUpdate(client);
-    handleClose();
   };
 
   return (
@@ -92,11 +85,12 @@ const EditUserForm = ({
             margin="dense"
             id="points"
             label="Puntos"
-            type="email"
+            type="number"
             fullWidth
             variant="standard"
             value={client.points.toString()}
             onChange={(e) => handleClientChange(e)}
+            inputProps={{ min: "0" }}
           />
         </DialogContent>
         <DialogActions>

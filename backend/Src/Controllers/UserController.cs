@@ -12,6 +12,7 @@ namespace backend.Src.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
 
     public class UserController : ControllerBase
     {

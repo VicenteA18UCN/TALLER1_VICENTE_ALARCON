@@ -32,7 +32,7 @@ namespace backend.Src.Services
                     new Claim(ClaimTypes.Name, username),
 
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddSeconds(60),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 
             };

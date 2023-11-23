@@ -32,6 +32,7 @@ namespace backend.Src.Controllers
 
             var user = await _authService.GetAdmin(loginUserDto.Username);
 
+
             var token = _authService.GenerateToken(loginUserDto.Username, user.Id);
             if (string.IsNullOrEmpty(token)) return BadRequest("Token error");
 

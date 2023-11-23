@@ -44,12 +44,12 @@ const Login = () => {
       .catch((error) => {
         console.log(error);
         let errorDefault: string = "Ha ocurrido un error. Intente nuevamente.";
-        console.log(error.response.status);
-        console.log(error.response.statusText);
-        console.log(error.response.data);
-        switch (error.response.status) {
+        console.log(error.status);
+        console.log(error.statusText);
+        console.log(error.data);
+        switch (error.status) {
           case 400:
-            if (error.response.data === "Invalid Credentials") {
+            if (error.data === "Invalid Credentials") {
               errorDefault = "Usuario o contraseña incorrectos.";
             }
             break;

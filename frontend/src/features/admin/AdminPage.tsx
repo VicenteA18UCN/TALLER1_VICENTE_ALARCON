@@ -8,6 +8,8 @@ import SearchClient from "../clients/SearchClient";
 import DeleteDialog from "../clients/DeleteDialog";
 import CreateUserForm from "../clients/CreateUserForm";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectExp, selectId } from "../../features/auth/adminSlice";
 
 const defaultClient: Client = {
   id: 0,
@@ -29,6 +31,8 @@ const AdminPage = () => {
   const [isEditFormOpen, setIsEditFormOpen] = React.useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] =
     React.useState<boolean>(false);
+  const exp = useSelector(selectExp);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     agent.Clients.list()
@@ -40,7 +44,16 @@ const AdminPage = () => {
       });
   }, []);
 
+  const expiredToken = () => {
+    const now = Math.floor(Date.now() / 1000);
+    if (exp && now > exp) {
+      dispatch(logout());
+      window.location.reload();
+    }
+  };
+
   const handleClickCreate = (newClient: Client) => {
+    expiredToken();
     agent.Clients.create(
       newClient.rut,
       newClient.name,
@@ -53,34 +66,32 @@ const AdminPage = () => {
         handleCloseCreateForm();
       })
       .catch((error) => {
-        console.log(error.response);
+        console.log(error);
         let errorDefault: string = "Ha ocurrido un error. Intente nuevamente.";
-        console.log(error.response);
-        switch (error.response.status) {
+        console.log(error);
+        switch (error.status) {
           case 400:
-            if (error.response.data.errors?.Rut) {
+            if (error.data.errors?.Rut) {
               errorDefault = "El rut no puede estar vacío.";
-            } else if (error.response.data.errors?.Name) {
+            } else if (error.data.errors?.Name) {
               errorDefault = "El nombre no puede estar vacío.";
-            } else if (error.response.data.errors?.Lastname) {
+            } else if (error.data.errors?.Lastname) {
               errorDefault = "El apellido no puede estar vacío.";
-            } else if (error.response.data.errors?.Email) {
+            } else if (error.data.errors?.Email) {
               if (
-                error.response.data.errors.Email.includes(
-                  "The Email field is required."
-                )
+                error.data.errors.Email.includes("The Email field is required.")
               ) {
                 errorDefault = "El email no puede estar vacío.";
               } else if (
-                error.response.data.errors.Email.includes(
+                error.data.errors.Email.includes(
                   "The Email field is not a valid e-mail address."
                 )
               ) {
                 errorDefault = "El email no es válido.";
               }
-            } else if (error.response.data?.Email) {
+            } else if (error.data?.Email) {
               errorDefault = "El Email ya existe.";
-            } else if (error.response.data?.Rut) {
+            } else if (error.data?.Rut) {
               errorDefault = "El Rut ya existe.";
             }
             break;
@@ -104,6 +115,7 @@ const AdminPage = () => {
   };
 
   const handleClickDelete = (id: number) => {
+    expiredToken();
     console.log(id);
     agent.Clients.delete(id)
       .then((response) => {
@@ -112,11 +124,12 @@ const AdminPage = () => {
         handleCloseDeleteForm();
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error.data);
       });
   };
 
   const handleClickUpdate = (updatedClient: Client) => {
+    expiredToken();
     agent.Clients.update(
       updatedClient.rut,
       updatedClient.name,
@@ -137,27 +150,25 @@ const AdminPage = () => {
       })
       .catch((error) => {
         let errorDefault: string = "Ha ocurrido un error. Intente nuevamente.";
-        switch (error.response.status) {
+        switch (error.status) {
           case 400:
-            if (error.response.data.errors?.Name) {
+            if (error.data.errors?.Name) {
               errorDefault = "El nombre no puede estar vacío.";
-            } else if (error.response.data.errors?.Lastname) {
+            } else if (error.data.errors?.Lastname) {
               errorDefault = "El apellido no puede estar vacío.";
-            } else if (error.response.data.errors?.Email) {
+            } else if (error.data.errors?.Email) {
               if (
-                error.response.data.errors.Email.includes(
-                  "The Email field is required."
-                )
+                error.data.errors.Email.includes("The Email field is required.")
               ) {
                 errorDefault = "El email no puede estar vacío.";
               } else if (
-                error.response.data.errors.Email.includes(
+                error.data.errors.Email.includes(
                   "The Email field is not a valid e-mail address."
                 )
               ) {
                 errorDefault = "El email no es válido.";
               }
-            } else if (error.response.data.Email) {
+            } else if (error.data.Email) {
               errorDefault = "El Email ya existe.";
             }
             break;

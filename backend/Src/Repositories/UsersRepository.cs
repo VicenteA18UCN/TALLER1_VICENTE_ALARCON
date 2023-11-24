@@ -38,7 +38,10 @@ namespace backend.Src.Repositories
 
         public async Task<List<User>> GetAll()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users
+                .Where(user => user.AdminId == null)
+                .ToListAsync();
+
             return users;
         }
 

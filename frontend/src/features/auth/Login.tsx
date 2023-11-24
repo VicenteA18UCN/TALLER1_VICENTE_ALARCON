@@ -1,21 +1,31 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Avatar from "@mui/material/Avatar";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  Grid,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import agent from "../../app/api/agent";
 import { useDispatch } from "react-redux";
 import { login } from "./adminSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from "../auth/assets/images/logo.png";
-import { primaryGreen } from "../../app/constants/colors";
-import { BoltRounded } from "@mui/icons-material";
+import { primaryGreen, secondaryGreen } from "../../app/constants/colors";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
+import "@fontsource/roboto";
+import Footer from "../../app/layout/Footer";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const resetFormFields = () => {
     const usernameField = document.getElementById(
       "username"
@@ -30,11 +40,22 @@ const Login = () => {
     }
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const username = data.get("username")?.toString() ?? "";
     const password = data.get("password")?.toString() ?? "";
+
     agent.Auth.login(username, password)
       .then((response: any) => {
         dispatch(login(response.token));
@@ -77,96 +98,112 @@ const Login = () => {
   };
   return (
     <>
-      <Container
-        maxWidth="xl"
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
         sx={{
           height: "100vh",
-          background: "linear-gradient(to bottom, #effbe2, #e8f6e2)",
+          background: secondaryGreen,
         }}
       >
-        <Container component="main" maxWidth="xs">
-          <Box
-            sx={{
-              marginTop: 0,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <img
-              src={logo}
-              alt="logo"
-              width={200}
-              height={200}
-              style={{ marginTop: "50px" }}
-            />
-            <Typography
-              component="h1"
-              variant="h5"
-              color={primaryGreen}
-              fontSize={30}
-              fontWeight={700}
-              mb={2}
+        <Container>
+          <Container component="main" maxWidth="xs">
+            <Box
+              sx={{
+                marginTop: 0,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              ¡Dumbo te da menos!
-            </Typography>
-          </Box>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            border={1}
-            borderColor="success.main"
-            borderRadius={2}
-            sx={{
-              mt: 1,
-              alignItems: "center",
-              flexDirection: "column",
-              display: "flex",
-              backgroundColor: "#fff",
-              padding: "30px",
-            }}
-          >
-            <Typography
-              component="h1"
-              variant="h5"
-              fontSize={35}
-              fontWeight={500}
+              <img src={logo} alt="logo" width={200} height={200} />
+              <Typography
+                component="h1"
+                variant="h5"
+                color={primaryGreen}
+                fontSize={30}
+                fontWeight={700}
+                mb={2}
+                fontFamily={"roboto"}
+                fontStyle={"italic"}
+              >
+                ¡Dumbo te da menos!
+              </Typography>
+            </Box>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              border={1}
+              borderColor="success.main"
+              borderRadius={2}
+              sx={{
+                mt: 1,
+                alignItems: "center",
+                flexDirection: "column",
+                display: "flex",
+                backgroundColor: "#fff",
+                padding: "30px",
+              }}
             >
-              Inicia Sesión
-            </Typography>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Usuario"
-              name="username"
-              autoComplete="username"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Contraseña"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="success"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Iniciar Sesión{" "}
-            </Button>
-          </Box>
+              <Typography
+                component="h1"
+                variant="h5"
+                fontSize={35}
+                fontWeight={550}
+                fontFamily={"roboto"}
+              >
+                Inicia Sesión
+              </Typography>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Usuario"
+                name="username"
+                autoComplete="username"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Contraseña"
+                type={showPassword ? "text" : "password"}
+                id="password"
+                autoComplete="current-password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="success"
+                sx={{ mt: 2, mb: 2 }}
+              >
+                Iniciar Sesión{" "}
+              </Button>
+            </Box>
+          </Container>
+          <Footer />
         </Container>
-      </Container>
+      </Grid>
     </>
   );
 };

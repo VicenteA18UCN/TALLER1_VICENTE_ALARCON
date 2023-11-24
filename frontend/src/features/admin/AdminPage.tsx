@@ -10,6 +10,8 @@ import CreateUserForm from "../clients/CreateUserForm";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectExp, selectId } from "../../features/auth/adminSlice";
+import Footer from "../../app/layout/Footer";
+import { validate, clean, format, getCheckDigit } from "rut.js";
 
 const defaultClient: Client = {
   id: 0,
@@ -25,7 +27,6 @@ const AdminPage = () => {
   const [searchString, setSearchString] = React.useState<string>("");
   const [currentClient, setCurrentClient] =
     React.useState<Client>(defaultClient);
-
   const [isCreateFormOpen, setIsCreateFormOpen] =
     React.useState<boolean>(false);
   const [isEditFormOpen, setIsEditFormOpen] = React.useState<boolean>(false);
@@ -33,6 +34,7 @@ const AdminPage = () => {
     React.useState<boolean>(false);
   const exp = useSelector(selectExp);
   const dispatch = useDispatch();
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   React.useEffect(() => {
     agent.Clients.list()
@@ -54,6 +56,36 @@ const AdminPage = () => {
 
   const handleClickCreate = (newClient: Client) => {
     expiredToken();
+    console.log(newClient.rut);
+    if (!validate(newClient.rut)) {
+      toast.error("El rut no es válido.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    } else {
+      newClient.rut = format(newClient.rut);
+    }
+    if (!emailRegex.test(newClient.email)) {
+      toast.error("El email no es válido.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
     agent.Clients.create(
       newClient.rut,
       newClient.name,
@@ -130,6 +162,20 @@ const AdminPage = () => {
 
   const handleClickUpdate = (updatedClient: Client) => {
     expiredToken();
+    if (!emailRegex.test(updatedClient.email)) {
+      toast.error("El email no es válido.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
     agent.Clients.update(
       updatedClient.rut,
       updatedClient.name,
@@ -229,58 +275,74 @@ const AdminPage = () => {
   );
 
   return (
-    <Container maxWidth="xl">
-      <Paper elevation={3} sx={{ padding: "20px 15px", margin: "2rem 0" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h4" align="center">
-              Gestión de Usuarios
-            </Typography>
+    <>
+      <Container maxWidth="xl">
+        <Paper elevation={3} sx={{ padding: "20px 15px", margin: "2rem 0" }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h4" align="center">
+                Gestión de Usuarios
+              </Typography>
 
-            <Grid container justifyContent="space-between" alignItems="center">
-              <Grid item>
-                <SearchClient handleSearch={handleSearch} />
+              <Grid
+                container
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Grid item xs={6} sm={8}>
+                  <SearchClient handleSearch={handleSearch} />
+                </Grid>
+                <Grid item xs={6} sm={4}>
+                  <Grid container justifyContent="flex-end">
+                    <Button
+                      variant="outlined"
+                      onClick={handleOpenCreateForm}
+                      color="success"
+                      style={{ maxWidth: "200px", marginBottom: "1px" }}
+                    >
+                      Añadir cliente
+                    </Button>
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Button variant="outlined" onClick={handleOpenCreateForm}>
-                  Añadir cliente
-                </Button>
-              </Grid>
+
+              <ClientTable
+                initialClient={filteredClients}
+                handleDelete={handleOpenDeleteForm}
+                handleEdit={handleEditClient}
+              />
+              {isCreateFormOpen && (
+                <CreateUserForm
+                  isOpen={isCreateFormOpen}
+                  handleClickClose={handleCloseCreateForm}
+                  handleClickCreate={handleClickCreate}
+                />
+              )}
+              {isEditFormOpen && (
+                <EditUserForm
+                  isOpen={isEditFormOpen}
+                  initialClient={currentClient}
+                  handleClickClose={handleCloseEditForm}
+                  handleClickUpdate={handleClickUpdate}
+                />
+              )}
+
+              {isDeleteDialogOpen && (
+                <DeleteDialog
+                  isOpen={isDeleteDialogOpen}
+                  deleteClient={currentClient}
+                  handleClickClose={handleCloseDeleteForm}
+                  handleClickDelete={handleClickDelete}
+                />
+              )}
             </Grid>
-
-            <ClientTable
-              initialClient={filteredClients}
-              handleDelete={handleOpenDeleteForm}
-              handleEdit={handleEditClient}
-            />
-            {isCreateFormOpen && (
-              <CreateUserForm
-                isOpen={isCreateFormOpen}
-                handleClickClose={handleCloseCreateForm}
-                handleClickCreate={handleClickCreate}
-              />
-            )}
-            {isEditFormOpen && (
-              <EditUserForm
-                isOpen={isEditFormOpen}
-                initialClient={currentClient}
-                handleClickClose={handleCloseEditForm}
-                handleClickUpdate={handleClickUpdate}
-              />
-            )}
-
-            {isDeleteDialogOpen && (
-              <DeleteDialog
-                isOpen={isDeleteDialogOpen}
-                deleteClient={currentClient}
-                handleClickClose={handleCloseDeleteForm}
-                handleClickDelete={handleClickDelete}
-              />
-            )}
           </Grid>
-        </Grid>
-      </Paper>
-    </Container>
+        </Paper>
+      </Container>
+      <Grid>
+        <Footer />
+      </Grid>
+    </>
   );
 };
 

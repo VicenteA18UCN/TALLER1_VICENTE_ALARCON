@@ -12,7 +12,7 @@ import { primaryGreen } from "../../app/constants/colors";
 import { Client } from "../../app/models/Client";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Icon, IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -70,7 +70,9 @@ const ClientsTable = ({ initialClient, handleDelete, handleEdit }: Props) => {
               <StyledTableCell align="center">
                 {client.lastname}
               </StyledTableCell>
-              <StyledTableCell align="center">{client.rut}</StyledTableCell>
+              <StyledTableCell align="center" style={{ width: "200px" }}>
+                {client.rut}
+              </StyledTableCell>
               <StyledTableCell align="center">{client.email}</StyledTableCell>
               <StyledTableCell align="center">{client.points}</StyledTableCell>
               <StyledTableCell align="center">

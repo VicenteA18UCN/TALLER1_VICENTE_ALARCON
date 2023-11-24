@@ -1,14 +1,9 @@
 import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import { HandshakeRounded } from "@mui/icons-material";
 
 interface Props {
   handleSearch: (id: string) => void;
@@ -23,7 +18,7 @@ const Search = styled("div")(({ theme }) => ({
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(0),
     width: "auto",
   },
 }));
@@ -41,15 +36,21 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 20, 1, 0),
+    padding: theme.spacing(1, 2, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      width: "48ch",
+      width: "22ch",
       "&:focus": {
-        width: "34ch",
+        width: "28ch",
+      },
+    },
+    [theme.breakpoints.up("xl")]: {
+      width: "36ch",
+      "&:focus": {
+        width: "40ch",
       },
     },
   },

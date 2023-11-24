@@ -6,6 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Client } from "../../app/models/Client";
+import { format, clean } from "rut.js";
 
 interface Props {
   isOpen: boolean;
@@ -42,6 +43,7 @@ const CreateUserForm = ({
     handleClickClose();
   };
   const handleOnSubmit = () => {
+    setClient({ ...client, rut: format(client.rut) });
     handleClickCreate(client);
   };
 
@@ -58,6 +60,7 @@ const CreateUserForm = ({
             type="text"
             fullWidth
             variant="standard"
+            value={client.rut}
             onChange={(e) => handleClientChange(e)}
           />
         </DialogContent>
@@ -111,7 +114,7 @@ const CreateUserForm = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleOnSubmit}>Actualizar</Button>
+          <Button onClick={handleOnSubmit}>Agregar</Button>
         </DialogActions>
       </Dialog>
     </>

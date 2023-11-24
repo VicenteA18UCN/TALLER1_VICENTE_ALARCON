@@ -30,10 +30,13 @@ namespace backend.Src.Controllers
             var checkCredentials = await _authService.CheckCredentials(loginUserDto);
             if (!checkCredentials) return BadRequest("Invalid Credentials");
 
-            var user = await _authService.GetAdmin(loginUserDto.Username);
+            var admin = await _authService.GetAdmin(loginUserDto.Username);
+            if (admin == null) return BadRequest("Invalid Credentials");
 
+            var user = await _authService.GetUser(admin.Id);
+            if (user == null) return BadRequest("Invalid Credentials");
 
-            var token = _authService.GenerateToken(loginUserDto.Username, user.Id);
+            var token = _authService.GenerateToken(user.Rut, admin.Id);
             if (string.IsNullOrEmpty(token)) return BadRequest("Token error");
 
             return Ok(new { Token = token });

@@ -19,6 +19,8 @@ namespace backend.Src.DTO
         [Range(0, int.MaxValue, ErrorMessage = "Los puntos deben ser mayores o iguales a cero")]
         public int Points { get; set; } = 0;
 
+        public int? AdminId { get; set; } = null;
+
 
     }
 }

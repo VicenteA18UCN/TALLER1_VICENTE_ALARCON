@@ -156,7 +156,20 @@ const AdminPage = () => {
         handleCloseDeleteForm();
       })
       .catch((error) => {
-        console.log(error.data);
+        handleCloseDeleteForm();
+        if (error.data === "User is admin") {
+          var errorDefault = "No se puede eliminar un usuario administrador.";
+          toast.error(errorDefault, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+            theme: "light",
+          });
+        }
       });
   };
 

@@ -5,7 +5,7 @@
 namespace backend.Src.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AdminUserMigrations : Migration
+    public partial class AdminUserMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,12 +34,24 @@ namespace backend.Src.Data.Migrations
                     Lastname = table.Column<string>(type: "TEXT", nullable: false),
                     Rut = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Points = table.Column<int>(type: "INTEGER", nullable: false)
+                    Points = table.Column<int>(type: "INTEGER", nullable: false),
+                    AdminId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Admins_AdminId",
+                        column: x => x.AdminId,
+                        principalTable: "Admins",
+                        principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_AdminId",
+                table: "Users",
+                column: "AdminId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
@@ -58,10 +70,10 @@ namespace backend.Src.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Admins");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Admins");
         }
     }
 }

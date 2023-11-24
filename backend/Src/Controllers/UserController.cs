@@ -16,14 +16,13 @@ namespace backend.Src.Controllers
 
     public class UserController : ControllerBase
     {
-        private readonly DataContext _context;
+
         private readonly IUsersService _usersService;
 
         // Inyectamos el contexto para poder acceder a la base de datos
-        public UserController(DataContext context, IUsersService usersService)
+        public UserController(IUsersService usersService, IAuthService authService)
         {
-            // Guardamos en un atributo para utilizarlo cuando lo necesitemos
-            _context = context;
+
             _usersService = usersService;
         }
 
@@ -91,6 +90,18 @@ namespace backend.Src.Controllers
         [HttpDelete("delete/{id}")]
         public async Task<ActionResult<string>> DeleteUser(int id)
         {
+
+            var user = await _usersService.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.AdminId != null)
+            {
+                return BadRequest("User is admin");
+            }
+
             await _usersService.DeleteUser(id);
             return Ok("User deleted");
         }

@@ -13,5 +13,6 @@ namespace backend.Src.Repositories.Interfaces
         public Task<User?> GetByRut(string rut);
         public Task<List<User>> GetAll();
         public Task<Admin?> GetAdminByUsername(string username);
+        public Task<User?> GetUserByAdminId(int adminId);
     }
 }

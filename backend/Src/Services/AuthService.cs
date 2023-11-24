@@ -20,7 +20,7 @@ namespace backend.Src.Services
             _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
         }
 
-        public string? GenerateToken(string username, int id)
+        public string? GenerateToken(string rut, int id)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSecret);
@@ -29,7 +29,7 @@ namespace backend.Src.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]{
                     new Claim(ClaimTypes.NameIdentifier, id.ToString()),
-                    new Claim(ClaimTypes.Name, username),
+                    new Claim(ClaimTypes.Name, rut),
 
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
@@ -57,6 +57,12 @@ namespace backend.Src.Services
         {
             var admin = await _usersRepository.GetAdminByUsername(username);
             return admin;
+        }
+
+        public async Task<User?> GetUser(int adminId)
+        {
+            var user = await _usersRepository.GetUserByAdminId(adminId);
+            return user;
         }
     }
 }

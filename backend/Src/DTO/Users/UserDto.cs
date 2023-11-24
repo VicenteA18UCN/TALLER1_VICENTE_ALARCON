@@ -13,5 +13,7 @@ namespace backend.Src.DTO.Users
         public string Email { get; set; } = null!;
         public string Rut { get; set; } = null!;
         public int Points { get; set; } = 0;
+        public int? AdminId { get; set; } = null;
+        public AdminDto? Admin { get; set; }
     }
 }

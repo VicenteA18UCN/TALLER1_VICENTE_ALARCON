@@ -50,6 +50,13 @@ namespace backend.Src.Services
             return "User deleted";
         }
 
+        public async Task<CreateUserDto> GetUserById(int id)
+        {
+            var user = await _usersRepository.GetById(id);
+            if (user == null) throw new Exception("User not found");
+            var mappedUser = _mapperService.MapToCreateUserDto(user);
+            return mappedUser;
+        }
         public async Task<CreateUserDto> GetUserByRut(string rut)
         {
             var user = await _usersRepository.GetByRut(rut);

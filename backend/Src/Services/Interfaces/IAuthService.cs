@@ -10,5 +10,6 @@ namespace backend.Src.Services.Interfaces
         public Task<bool> CheckCredentials(LoginAdminDto loginAdminDto);
 
         public Task<Admin?> GetAdmin(string username);
+        public Task<User?> GetUser(int adminId);
     }
 }

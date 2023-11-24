@@ -55,11 +55,52 @@ const Login = () => {
     const data = new FormData(event.currentTarget);
     const username = data.get("username")?.toString() ?? "";
     const password = data.get("password")?.toString() ?? "";
+    if (username === "" && password === "") {
+      let errorDefault = "Debe completar todos los campos.";
+      toast.error(errorDefault, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    } else if (username === "") {
+      let errorDefault = "Debe completar el campo usuario.";
+      toast.error(errorDefault, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    } else if (password === "") {
+      let errorDefault = "Debe completar el campo contraseña.";
+      toast.error(errorDefault, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
 
     agent.Auth.login(username, password)
       .then((response: any) => {
         dispatch(login(response.token));
         console.log(response);
+        toast.dismiss();
         navigate("/admin/list");
       })
       .catch((error) => {

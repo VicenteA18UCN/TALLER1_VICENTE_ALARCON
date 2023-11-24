@@ -48,12 +48,11 @@ const ClientsTable = ({ initialClient, handleDelete, handleEdit }: Props) => {
   }, [initialClient]);
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
+      <Table stickyHeader aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell align="center">Nombre</StyledTableCell>
-
             <StyledTableCell align="center">Apellido</StyledTableCell>
             <StyledTableCell align="center">RUT o DNI</StyledTableCell>
             <StyledTableCell align="center">Correo electrónico</StyledTableCell>

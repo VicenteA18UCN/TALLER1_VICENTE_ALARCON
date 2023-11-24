@@ -43,8 +43,11 @@ const CreateUserForm = ({
     handleClickClose();
   };
   const handleOnSubmit = () => {
-    setClient({ ...client, rut: format(client.rut) });
-    handleClickCreate(client);
+    if (client.rut === "") handleClickCreate(client);
+    else {
+      setClient({ ...client, rut: format(client.rut) });
+      handleClickCreate(client);
+    }
   };
 
   return (
@@ -54,6 +57,7 @@ const CreateUserForm = ({
         <DialogContent>
           <TextField
             autoFocus
+            required
             margin="dense"
             id="rut"
             label="Rut"
@@ -67,6 +71,7 @@ const CreateUserForm = ({
         <DialogContent>
           <TextField
             autoFocus
+            required
             margin="dense"
             id="name"
             label="Nombres"
@@ -79,6 +84,7 @@ const CreateUserForm = ({
         <DialogContent>
           <TextField
             autoFocus
+            required
             margin="dense"
             id="lastname"
             label="Apellidos"
@@ -91,6 +97,7 @@ const CreateUserForm = ({
         <DialogContent>
           <TextField
             autoFocus
+            required
             margin="dense"
             id="email"
             label="Correo electrónico"

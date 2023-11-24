@@ -48,7 +48,7 @@ const ClientsTable = ({ initialClient, handleDelete, handleEdit }: Props) => {
   }, [initialClient]);
 
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
+    <TableContainer component={Paper} sx={{ maxHeight: 550 }}>
       <Table stickyHeader aria-label="customized table">
         <TableHead>
           <TableRow>

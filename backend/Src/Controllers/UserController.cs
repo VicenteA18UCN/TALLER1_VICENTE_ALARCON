@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace backend.Src.Controllers
 {
+    //Controlador de usuarios.
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
@@ -17,15 +18,34 @@ namespace backend.Src.Controllers
     public class UserController : ControllerBase
     {
 
+        /// <summary>
+        /// Atributos:
+        ///   - _usersService: Servicio de usuarios.
+        /// </summary>
         private readonly IUsersService _usersService;
 
-        // Inyectamos el contexto para poder acceder a la base de datos
-        public UserController(IUsersService usersService, IAuthService authService)
+        //Constructor:
+        public UserController(IUsersService usersService)
         {
 
             _usersService = usersService;
         }
 
+        /// <summary>
+        /// Este método permite crear un usuario a partir de un objeto CreateUserDto. Para crearlo se debe estar autenticado como administrador.
+        /// </summary>
+        /// <param name="createUser">
+        ///   - Rut: Rut del usuario.
+        ///   - Name: Nombres del usuario.
+        ///   - Lastname: Apellidos del usuario.
+        ///   - Email: Email del usuario.
+        ///   - Points: Puntos del usuario.
+        /// </param>
+        /// <returns>
+        /// Retorna el usuario creado. Además, ingresa al usuario a la base de datos.
+        /// En caso de que el rut ya exista, retorna un BadRequest, con el mensaje "Rut already exists".
+        /// En caso de que el email ya exista, retorna un BadRequest, con el mensaje "Email already exists".
+        /// </returns>
         [HttpPost("create")]
         public async Task<ActionResult<CreateUserDto>> CreateUser(CreateUserDto createUser)
         {
@@ -53,16 +73,35 @@ namespace backend.Src.Controllers
 
             return await _usersService.AddUser(createUser);
         }
-
+        /// <summary>
+        /// Este método permite obtener todos los usuarios. Para obtenerlos se debe estar autenticado como administrador.
+        /// </summary>
+        /// <returns>
+        /// Retorna una lista con todos los usuarios.
+        /// </returns> 
         [HttpGet("read")]
         public async Task<ActionResult<string>> GetUsers()
         {
-            // Get all users
             var users = await _usersService.GetAll();
             return Ok(users);
-
         }
 
+        /// <summary>
+        /// Este método permite actualizar un usuario a partir de un objeto UpdateUserDto. Para actualizarlo se debe estar autenticado como administrador.
+        /// </summary>
+        /// <param name="updateUser">
+        ///     - Name: Nombres del usuario.
+        ///     - Lastname: Apellidos del usuario.
+        ///     - Email: Email del usuario.
+        ///     - Points: Puntos del usuario.
+        /// </param>
+        /// <param name="rut">
+        ///    - Rut: Rut del usuario a actualizar.
+        /// </param>
+        /// <returns>
+        /// Retorna el usuario actualizado. Además, actualiza al usuario en la base de datos.
+        /// En caso de que el email ya exista, retorna un BadRequest, con el mensaje "Email already exists".
+        /// </returns>
         [HttpPut("update/{rut}")]
         public async Task<ActionResult<UpdateUserDto>> UpdateUser(UpdateUserDto updateUser, string rut)
         {
@@ -87,6 +126,16 @@ namespace backend.Src.Controllers
             return await _usersService.UpdateUser(updateUser, rut);
         }
 
+        /// <summary>
+        /// Este método permite eliminar un usuario. Para eliminarlo se debe estar autenticado como administrador.
+        /// </summary>
+        /// <param name="id">
+        ///   - Id: Id del usuario a eliminar.
+        /// </param>
+        /// <returns>
+        /// Retorna un mensaje de confirmación. Además elimina al usuario de la base de datos.
+        /// En caso de que el usuario sea administrador, retorna un BadRequest, con el mensaje "User is admin". 
+        /// </returns>
         [HttpDelete("delete/{id}")]
         public async Task<ActionResult<string>> DeleteUser(int id)
         {
@@ -106,12 +155,6 @@ namespace backend.Src.Controllers
             return Ok("User deleted");
         }
 
-        [HttpGet("search/{rut}")]
-        public async Task<ActionResult<CreateUserDto>> GetUser(string rut)
-        {
-            var user = await _usersService.GetUserByRut(rut);
-            return Ok(user);
-        }
     }
 }
 

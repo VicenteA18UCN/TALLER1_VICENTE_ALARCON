@@ -20,7 +20,15 @@ namespace backend.Src.Services
             var mappedUsers = users.Select(u => _mapper.Map<UserDto>(u)).ToList();
             return mappedUsers;
         }
-
+        /// <summary>
+        /// Método para mapear un DTO de usuario a un modelo de usuario.
+        /// </summary>
+        /// <param name="clientUserDto">
+        /// - clientUserDto: DTO de usuario a mapear.
+        /// </param>
+        /// <returns>
+        /// Retorna el usuario mapeado.
+        /// </returns>
         public User CreateClientDtoToUser(CreateUserDto clientUserDto)
         {
             var user = _mapper.Map<User>(clientUserDto);

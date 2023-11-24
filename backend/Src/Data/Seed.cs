@@ -2,13 +2,30 @@ using backend.Src.Models;
 
 namespace backend.Src.Data
 {
+    // Esta clase se encarga de poblar la base de datos con datos de prueba.
     public class Seed
     {
+        /// <summary>
+        /// Metodo que se encarga de poblar la base de datos con datos de prueba.
+        /// </summary>
+        /// <param name="context">
+        /// - context: Contexto de la base de datos.
+        /// </param>
         public async static void SeedData(DataContext context)
         {
             await SeedAdmins(context);
             await SeedUsers(context);
         }
+
+        /// <summary>
+        /// Metodo que se encarga de poblar la base de datos con administradores.	
+        /// </summary>
+        /// <param name="context">
+        /// - context: Contexto de la base de datos.
+        /// </param>
+        /// <returns>
+        /// Añaade a la base de datos los administradores.
+        /// </returns>
 
         private async static Task SeedAdmins(DataContext context)
         {
@@ -27,6 +44,15 @@ namespace backend.Src.Data
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Metodo que se encarga de poblar la base de datos con usuarios.	
+        /// </summary>
+        /// <param name="context">
+        /// - context: Contexto de la base de datos.
+        /// </param>
+        /// <returns>
+        /// Añaade a la base de datos los usuarios.
+        /// </returns>
         private async static Task SeedUsers(DataContext context)
         {
             if (context.Users.Any()) return;

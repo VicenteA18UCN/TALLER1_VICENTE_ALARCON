@@ -3,8 +3,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Src.Extensions
 {
+    // Extensión para agregar el servicio de seed.
     public class AppSeedService
     {
+        /// <summary>
+        /// Método para agregar el servicio de seed.
+        /// </summary>
+        /// <param name="app">
+        /// - app: Aplicación web.
+        /// </param>
         public static void SeedDatabase(WebApplication app)
         {
             var scope = app.Services.CreateScope();

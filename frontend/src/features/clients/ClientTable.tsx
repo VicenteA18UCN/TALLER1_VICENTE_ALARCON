@@ -78,8 +78,8 @@ const ClientsTable = ({ initialClient, handleDelete, handleEdit }: Props) => {
       <Table stickyHeader aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center">Nombre</StyledTableCell>
-            <StyledTableCell align="center">Apellido</StyledTableCell>
+            <StyledTableCell align="center">Nombres</StyledTableCell>
+            <StyledTableCell align="center">Apellidos</StyledTableCell>
             <StyledTableCell align="center">RUT o DNI</StyledTableCell>
             <StyledTableCell align="center">Correo electrónico</StyledTableCell>
             <StyledTableCell align="center">Puntos</StyledTableCell>

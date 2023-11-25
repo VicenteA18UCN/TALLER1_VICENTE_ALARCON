@@ -33,7 +33,7 @@ cd TALLER2_VICENTE_ALARCON
 cd backend
 ```
 
-Una vez dentro de la carpeta, ejecutar los siguientes comandos:
+Una vez dentro de la carpeta, ejecutar los siguientes comandos, para la instalación de las dependencias, la creación de la base de datos y la ejecución del proyecto:
 
 ```bash
 dotnet restore
@@ -41,14 +41,14 @@ dotnet ef database update
 dotnet run
 ```
 
-Luego abrir otra consola de comando, y colocar lo siguiente:
+Luego abrir otra consola de comando en la carpeta donde esta alojada el proyecto, y colocar lo siguiente:
 
 ```bash
 cd TALLER2_VICENTE_ALARCON
 cd frontend
 ```
 
-Una vez dentro de la carpeta, ejecutar los siguientes comandos:
+Una vez dentro de la carpeta, ejecutar los siguientes comandos, para la instalación de las dependencias y la ejecución del proyecto:
 
 ```bash
 npm install

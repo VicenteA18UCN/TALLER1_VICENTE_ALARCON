@@ -126,16 +126,12 @@ const Login = () => {
     agent.Auth.login(username, password)
       .then((response: any) => {
         dispatch(login(response.token));
-        console.log(response);
+
         toast.dismiss();
         navigate("/admin/list");
       })
       .catch((error) => {
-        console.log(error);
         let errorDefault: string = "Ha ocurrido un error. Intente nuevamente.";
-        console.log(error.status);
-        console.log(error.statusText);
-        console.log(error.data);
         switch (error.status) {
           case 400:
             if (error.data === "Invalid Credentials") {

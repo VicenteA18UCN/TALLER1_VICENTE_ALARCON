@@ -44,7 +44,6 @@ const EditUserForm = ({
    * @returns {void}
    */
   const handleClientChange = (event: any) => {
-    console.log(event);
     setClient({ ...client, [event.target.id]: event.target.value });
   };
   /**

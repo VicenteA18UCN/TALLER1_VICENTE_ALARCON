@@ -58,7 +58,6 @@ const CreateUserForm = ({
   const handleClientChange = (event: any) => {
     const { id, value } = event.target;
     setClient({ ...client, [id]: value });
-    console.log(client);
   };
 
   /**

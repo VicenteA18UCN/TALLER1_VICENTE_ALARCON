@@ -45,9 +45,7 @@ const AdminPage = () => {
       .then((response) => {
         setClients(response);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   }, []);
 
   /**
@@ -107,9 +105,7 @@ const AdminPage = () => {
         handleCloseCreateForm();
       })
       .catch((error) => {
-        console.log(error);
         let errorDefault: string = "Ha ocurrido un error. Intente nuevamente.";
-        console.log(error);
         switch (error.status) {
           case 400:
             if (error.data.errors?.Rut) {
@@ -164,7 +160,6 @@ const AdminPage = () => {
    */
   const handleClickDelete = (id: number) => {
     expiredToken();
-    console.log(id);
     agent.Clients.delete(id)
       .then((response) => {
         var errorDefault = "Se ha eliminado al usuario correctamente.";
@@ -179,7 +174,6 @@ const AdminPage = () => {
           theme: "light",
         });
         setClients(clients.filter((client) => client.id !== id));
-        console.log(response);
         handleCloseDeleteForm();
       })
       .catch((error) => {
@@ -245,7 +239,6 @@ const AdminPage = () => {
               : client
           )
         );
-        console.log(response);
         handleCloseEditForm();
       })
       .catch((error) => {

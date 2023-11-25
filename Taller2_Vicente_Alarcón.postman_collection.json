@@ -1,0 +1,207 @@
+{
+	"info": {
+		"_postman_id": "1ce3acd7-d3cd-45eb-b03d-07eb2574bcae",
+		"name": "Taller2_Vicente_Alarcón",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29661553"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJPY2hpZXR0byIsIm5iZiI6MTcwMDY5MDMzMiwiZXhwIjoxNzAxMjk1MTMyLCJpYXQiOjE3MDA2OTAzMzJ9.W25AfPlcZKJ7sjLEVAidGMEsxMxkXF2OaBMXKsyoxQQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"Ochietto\",\r\n    \"password\":\"Jaqamain3pals\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5163/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5163",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiIyMC40MTYuNjk5LTQiLCJuYmYiOjE3MDA4NzcwNjUsImV4cCI6MTcwMTQ4MTg2NSwiaWF0IjoxNzAwODc3MDY1fQ.hhfzfkYRE3T-aJXsWsbky8dfFUHlNT4QF7ya8QSIgg0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5163/api/user/read",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5163",
+					"path": [
+						"api",
+						"user",
+						"read"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"{\r",
+							"    \"rut\"\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiIyMC40MTYuNjk5LTQiLCJuYmYiOjE3MDA4NzcwNjUsImV4cCI6MTcwMTQ4MTg2NSwiaWF0IjoxNzAwODc3MDY1fQ.hhfzfkYRE3T-aJXsWsbky8dfFUHlNT4QF7ya8QSIgg0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rut\":\"21.112.147-8\",\r\n    \"name\": \"Rodrigo Diego\",\r\n    \"lastname\": \"Contreras Silva\",\r\n    \"email\":\"rorro@example.com\",\r\n    \"points\":\"50\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5163/api/user/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5163",
+					"path": [
+						"api",
+						"user",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiIyMC40MTYuNjk5LTQiLCJuYmYiOjE3MDA4NzcwNjUsImV4cCI6MTcwMTQ4MTg2NSwiaWF0IjoxNzAwODc3MDY1fQ.hhfzfkYRE3T-aJXsWsbky8dfFUHlNT4QF7ya8QSIgg0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"string string2\",\r\n  \"lastname\": \"string string2\",\r\n  \"email\": \"user@example.com\",\r\n  \"points\": 214\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5163/api/user/update/21.177.605-6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5163",
+					"path": [
+						"api",
+						"user",
+						"update",
+						"21.177.605-6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiIyMC40MTYuNjk5LTQiLCJuYmYiOjE3MDA4Nzg0OTcsImV4cCI6MTcwMTQ4MzI5NywiaWF0IjoxNzAwODc4NDk3fQ.RkwfJvRkO9bSZ1AtFGPOA7WSiapxnvGxWN02yDBsgro",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5163/api/user/delete/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5163",
+					"path": [
+						"api",
+						"user",
+						"delete",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

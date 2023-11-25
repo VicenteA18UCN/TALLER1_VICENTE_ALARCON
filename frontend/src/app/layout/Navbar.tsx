@@ -15,21 +15,39 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../features/auth/adminSlice";
 import { primaryGreen } from "../constants/colors";
 
+/**
+ * Componente que representa la barra de navegación superior de la aplicación.
+ * @function
+ * @returns {React.Element} - Elemento que contiene la barra de navegación con título y opciones de usuario.
+ */
 const Navbar = () => {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
   const dispatch = useDispatch();
 
+  /**
+   * Manejador para cerrar la sesión del usuario.
+   * @function
+   * @returns {void}
+   */
   const handleLogout = () => {
     dispatch(logout());
     window.location.reload();
   };
-
+  /**
+   * Manejador para abrir el menú de usuario.
+   * @function
+   * @param {React.MouseEvent<HTMLElement>} event - Evento de clic en el icono de usuario.
+   * @returns {void}
+   */
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
+  /**
+   * Manejador para cerrar el menú de usuario.
+   * @function
+   * @returns {void}
+   */
   const handleClose = () => {
     setAnchorEl(null);
   };

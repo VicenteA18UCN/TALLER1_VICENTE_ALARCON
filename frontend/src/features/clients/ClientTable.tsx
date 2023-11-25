@@ -7,13 +7,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import exp from "constants";
 import { primaryGreen } from "../../app/constants/colors";
 import { Client } from "../../app/models/Client";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton } from "@mui/material";
 
+/**
+ * Constante que define un TableCell personalizado con estilos específicos.
+ * @constant
+ */
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: primaryGreen,
@@ -24,6 +27,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
+/**
+ * Constante que establece el estilo de las filas de la tabla.
+ * @constant
+ * @memberof StyledTableRow
+ * @param {Object} theme - Tema de Material-UI.
+ */
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
@@ -34,16 +43,33 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+/**
+ * Interfaz que define el tipado de las props del componente ClientsTable.
+ * @interface
+ * @property {Client[]} initialClient - Lista inicial de clientes.
+ * @property {(client: Client) => void} handleDelete - Función para manejar la eliminación de un cliente.
+ * @property {(client: Client) => void} handleEdit - Función para manejar la edición de un cliente.
+ */
 interface Props {
   initialClient: Client[];
   handleDelete: (client: Client) => void;
   handleEdit: (client: Client) => void;
 }
 
+/**
+ * Componente que renderiza la tabla de clientes.
+ * @component
+ * @param {Props} props - Props del componente ClientsTable.
+ */
 const ClientsTable = ({ initialClient, handleDelete, handleEdit }: Props) => {
   const [clients, setClients] = React.useState<Client[]>(initialClient);
 
-  React.useEffect(() => {
+  /**
+   * Hook que se ejecuta cuando se actualiza el estado de initialClient.
+   * @memberof ClientsTable
+   * @name useEffect
+   * @function
+   */ React.useEffect(() => {
     setClients(initialClient);
   }, [initialClient]);
 

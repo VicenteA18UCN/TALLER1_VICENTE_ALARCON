@@ -22,10 +22,20 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "@fontsource/roboto";
 import Footer from "../../app/layout/Footer";
 
+/**
+ * Componente que renderiza la página de login.
+ * @component
+ */
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
+
+  /**
+   * Restablece los campos del formulario de inicio de sesión, limpiando los valores de los campos de nombre de usuario y contraseña.
+   * @function
+   * @returns {void}
+   */
   const resetFormFields = () => {
     const usernameField = document.getElementById(
       "username"
@@ -40,16 +50,33 @@ const Login = () => {
     }
   };
 
+  /**
+   * Cambia el estado de visualización de la contraseña entre mostrar y ocultar.
+   * @function
+   * @returns {void}
+   */
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
+  /**
+   * Evita que el campo de contraseña se seleccione al hacer clic en el icono de mostrar/ocultar contraseña.
+   * @function
+   * @param {React.MouseEvent<HTMLButtonElement>} event - El evento del mouse.
+   * @returns {void}
+   */
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
 
+  /**
+   * Maneja la presentación del formulario de inicio de sesión, validando que los campos no estén vacíos y que las credenciales sean correctas.
+   * @function
+   * @param {React.FormEvent<HTMLFormElement>} event - El evento de formulario.
+   * @returns {void}
+   */
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

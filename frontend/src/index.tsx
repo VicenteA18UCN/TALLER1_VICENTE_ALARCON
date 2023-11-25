@@ -8,6 +8,10 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./app/store/store";
 import { PersistGate } from "redux-persist/integration/react";
 
+/**
+ * Raíz de la aplicación utilizando ReactDOM.createRoot.
+ * @type {ReactRoot}
+ */
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

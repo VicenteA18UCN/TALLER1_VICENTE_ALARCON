@@ -2,9 +2,13 @@ import { Outlet, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { logout, selectExp, selectId } from "../../features/auth/adminSlice";
 import Navbar from "../layout/Navbar";
-
 import { useDispatch } from "react-redux";
 
+/**
+ * Componente funcional que verifica la autenticación del usuario antes de renderizar las rutas protegidas.
+ * @function
+ * @returns {React.Element} - Elemento que contiene el componente Navbar y las rutas protegidas.
+ */
 export default function RequireAuth() {
   const userId = useSelector(selectId);
   const exp = useSelector(selectExp);
